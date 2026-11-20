@@ -36,17 +36,17 @@ amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
-// --- NEW: TRANSFER DATA TO APPLICATION FORM ---
+// --- TRANSFER DATA TO APPLICATION FORM ---
 function startApplication() {
-    // 1. Get values from the calculator
+    // Read current values from the calculator
     const selectedAmount = amountSlider.value;
     const selectedTerm = termSelect.value;
 
-    // 2. Set the values in the application form (Step 1)
+    // Insert them into the application form fields
     document.getElementById('form-amount').value = selectedAmount;
     document.getElementById('form-term').value = selectedTerm;
 
-    // 3. Move to the application screen
+    // Move to the application screen
     goToScreen('screen-application');
 }
 
