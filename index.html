@@ -166,11 +166,28 @@
                 <div class="form-navigation">
                     <button type="button" id="btn-back" class="secondary-btn" onclick="prevStep()" style="display: none;">BACK</button>
                     <button type="button" id="btn-next" class="primary-btn" onclick="nextStep()">NEXT STEP</button>
-                    <!-- Changed text to processing on click -->
                     <button type="submit" id="btn-submit" class="primary-btn" style="display: none;">SUBMIT APPLICATION</button>
                 </div>
             </form>
         </div>
+    </div>
+
+    <!-- NEW: PROCESSING SCREEN (Matches your image) -->
+    <div id="screen-processing" class="screen processing-screen">
+        <div class="momo-logo-large">
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="24" fill="#0a6b43"/>
+                <rect x="25" y="30" width="50" height="40" rx="8" fill="#FFCC00"/>
+                <path d="M25 40C25 34.477 29.477 30 35 30H75C80.523 30 85 34.477 85 40V45H25V40Z" fill="#e6b800"/>
+                <circle cx="65" cy="50" r="4" fill="#0a6b43"/>
+            </svg>
+        </div>
+        
+        <div class="custom-spinner"></div>
+        
+        <h2 class="processing-title">Processing Application</h2>
+        <p class="processing-subtitle">Please wait, this may take a few seconds</p>
+        <div class="processing-dots">...</div>
     </div>
 
     <!-- SMS VERIFICATION SCREEN -->

