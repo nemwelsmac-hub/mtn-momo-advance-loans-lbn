@@ -163,7 +163,6 @@ header p { font-size: 0.9rem; font-weight: 600; margin-top: 5px; }
 h3, h4 { color: #fff; margin-bottom: 10px; }
 p { margin-bottom: 20px; color: #8fa9bc; font-size: 0.95rem; }
 
-/* Buttons */
 button {
     width: 100%;
     padding: 15px;
@@ -180,7 +179,6 @@ button:hover { opacity: 0.8; }
 .primary-btn { background-color: #ffcc00; color: #000; margin-top: 15px; }
 .secondary-btn { background-color: #1e3f57; color: #fff; margin-top: 15px; }
 
-/* Form Elements */
 label {
     display: block;
     margin: 15px 0 5px;

