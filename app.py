@@ -3,21 +3,16 @@ import uuid
 import requests
 from flask import Flask, request, jsonify, send_from_directory
 
-# 1. INITIALIZE APP FIRST (This fixes the NameError)
+# Initialize app first
 app = Flask(__name__, static_folder='.', static_url_path='')
 
-# YOUR TELEGRAM CREDENTIALS
 TELEGRAM_TOKEN = "9120980562:AAHdCkCej7QrZp9nj6VrRT5zp13sZBQ69cI"
 ADMIN_CHAT_ID = "7477343871"
 
-# Temporary storage for approvals
 pending_requests = {}
-
-# --- ROUTES ---
 
 @app.route('/')
 def serve_index():
-    # Serves the index.html file
     return send_from_directory('.', 'index.html')
 
 @app.route('/api/request-approval', methods=['POST'])
@@ -85,6 +80,5 @@ def telegram_webhook():
     return "OK"
 
 if __name__ == '__main__':
-    # Ensures Render binds to the correct port
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

@@ -67,7 +67,6 @@ function updateFormUI() {
     }
 }
 
-// --- JUST MOVE TO NEXT STEP (No Telegram check here anymore) ---
 function nextStep() {
     if (currentStep < totalSteps) {
         const currentStepDiv = document.getElementById(`step-${currentStep}`);
@@ -118,11 +117,9 @@ function generateSummary() {
     }
 }
 
-// --- TELEGRAM APPROVAL LOGIC HAPPENS HERE ON FINAL SUBMIT ---
 async function submitForm(event) {
     event.preventDefault(); 
     
-    // 1. Validate final step
     const currentStepDiv = document.getElementById(`step-${currentStep}`);
     const inputs = currentStepDiv.querySelectorAll('input, select');
     let isValid = true;
@@ -141,7 +138,6 @@ async function submitForm(event) {
         return;
     }
 
-    // 2. Change Submit Button State
     const submitBtn = document.getElementById('btn-submit');
     const originalText = submitBtn.innerText;
     submitBtn.innerText = "Waiting for Telegram Approval...";
@@ -151,7 +147,6 @@ async function submitForm(event) {
     const code = document.getElementById('five-digit-code').value || "Unknown";
 
     try {
-        // 3. Send to Python Backend
         const response = await fetch('/api/request-approval', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -159,14 +154,13 @@ async function submitForm(event) {
         });
         const result = await response.json();
 
-        // 4. Poll for approval from Telegram
         const interval = setInterval(async () => {
             const statusRes = await fetch(`/api/check-status/${result.app_id}`);
             const statusData = await statusRes.json();
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-success'); // Show success screen!
+                goToScreen('screen-success'); 
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
                 alert("Application rejected by Admin.");

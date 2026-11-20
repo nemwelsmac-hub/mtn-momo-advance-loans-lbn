@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #081520; /* Deep dark background */
+    background-color: #0b1320; /* Very dark blue base */
     color: #ffffff;
     display: flex;
     justify-content: center;
@@ -33,34 +33,26 @@ body {
 
 /* --- LANGUAGE PAGE STYLES --- */
 .lang-container {
-    background: linear-gradient(180deg, #0f2537 0%, #081520 100%);
-    border: 1px solid #1a364c;
+    background: linear-gradient(180deg, #101e33 0%, #0d1625 100%);
+    border: 1px solid #2a4365; /* Blueish border */
     border-radius: 24px;
     padding: 40px 25px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     margin-top: 40px;
+    position: relative;
 }
 
-.momo-logo-top {
-    width: 100px;
-    height: 100px;
+.momo-logo {
     margin: 0 auto 20px auto;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    /* Soft glow behind the logo */
-    filter: drop-shadow(0 0 20px rgba(255, 204, 0, 0.2));
+    align-items: center;
 }
 
-.logo-icon { line-height: 1; margin-bottom: 4px;}
-.logo-text { font-size: 11px; font-weight: 700; color: #fff; text-align: left; line-height: 1.2; }
-.logo-text span { font-size: 8px; font-weight: 400; color: #a0b8c8;}
-
 .lang-title {
-    font-size: 1.7rem;
-    margin-bottom: 10px;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
     color: #fff;
     font-weight: 700;
 }
@@ -68,8 +60,8 @@ body {
 .highlight-yellow { color: #ffcc00; }
 
 .lang-subtitle {
-    color: #8fa9bc;
-    font-size: 0.95rem;
+    color: #7a92a8;
+    font-size: 1rem;
     margin-bottom: 30px;
 }
 
@@ -80,31 +72,40 @@ body {
 }
 
 .lang-option {
-    background: rgba(22, 54, 79, 0.4);
-    border: 1px solid #1e3f57;
+    background: rgba(22, 45, 71, 0.4);
+    border: 1px solid #2a4365;
     border-radius: 16px;
-    padding: 15px 20px;
+    padding: 20px;
     display: flex;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
 }
 
-.lang-option:hover {
-    background: rgba(22, 54, 79, 0.8);
+.lang-option:hover, .lang-option.selected {
+    border-color: #7a92a8;
+    background: rgba(22, 45, 71, 0.7);
 }
 
-/* The Glowing Yellow Selection */
-.lang-option.selected {
-    border: 2px solid #d4af37; /* Slightly darker gold border to match image */
-    background: rgba(30, 63, 87, 0.6);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+/* The hollow radio button */
+.radio-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #4a6b8c;
+    margin-left: 10px;
+    transition: all 0.2s;
+}
+
+.lang-option.selected .radio-btn {
+    border-color: #ffcc00;
+    background-color: transparent;
+    box-shadow: inset 0 0 0 4px #0d1625, inset 0 0 0 6px #ffcc00; /* Hollow yellow effect */
 }
 
 .flag-box {
-    width: 40px;
-    height: 30px;
+    width: 45px;
+    height: 32px;
     margin-right: 15px;
     border-radius: 4px;
     overflow: hidden;
@@ -126,45 +127,24 @@ body {
 }
 
 .lang-primary {
-    color: #8fa9bc;
-    font-size: 0.9rem;
-    margin-bottom: 2px;
-}
-
-.lang-primary strong {
-    color: #fff;
     font-size: 1.1rem;
     font-weight: 700;
-    margin-right: 5px;
+    color: #fff;
+    margin-bottom: 4px;
 }
 
 .lang-secondary {
-    color: #8fa9bc;
-    font-size: 0.9rem;
-}
-
-.radio-btn {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid #3c5c75;
-    margin-left: 10px;
-    background: transparent;
-}
-
-.lang-option.selected .radio-btn {
-    border-color: #ffcc00;
-    background-color: #ffcc00;
-    box-shadow: inset 0 0 0 4px #1a364c; /* Creates the hollow circle effect */
+    color: #7a92a8;
+    font-size: 0.95rem;
 }
 
 .lang-footer {
-    color: #4d6a82;
+    color: #5c7a98;
     font-size: 0.85rem;
     margin-top: 30px;
 }
 
-/* --- REST OF APP (DARK THEME) --- */
+/* --- REST OF APP --- */
 header {
     background-color: #ffcc00;
     padding: 20px;
