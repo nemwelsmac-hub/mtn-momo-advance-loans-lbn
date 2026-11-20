@@ -120,73 +120,16 @@ input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
 .success-screen.active { display: flex; }
 .success-card { background: #fff; width: 100%; max-width: 420px; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; position: relative; }
 .success-header { background-color: #003B5C; padding: 40px 20px 30px 20px; color: #fff; position: relative; }
-
-/* Emoji Confetti */
-.confetti { position: absolute; font-size: 2rem; opacity: 0.8; z-index: 1; }
+.confetti { position: absolute; font-size: 2rem; opacity: 0.7; z-index: 1; }
 .confetti-1 { top: 10px; left: 20px; transform: rotate(-20deg); }
 .confetti-2 { top: 10px; right: 20px; transform: rotate(20deg); font-size: 1.5rem;}
-
-/* Exact MoMo Logo styling */
-.momo-logo-exact {
-    background: #004C6C;
-    border: 3px solid #1a3f54;
-    border-radius: 20px;
-    padding: 12px 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
-}
-
-.momo-emblem {
-    background: #082b3f;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.momo-text {
-    text-align: left;
-    color: #fff;
-    line-height: 1.1;
-}
-
-.momo-text strong {
-    font-size: 1.1rem;
-    color: #ffcc00;
-    letter-spacing: 0.5px;
-}
-
-.momo-text span {
-    font-size: 0.65rem;
-    color: #a0b8c8;
-    font-weight: 600;
-}
-
+.success-logo { margin-bottom: 10px; position: relative; z-index: 2; filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.4)); }
 .party-popper { font-size: 3rem; margin-bottom: 15px; position: relative; z-index: 2; }
 .success-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; position: relative; z-index: 2; }
 .success-header p { font-size: 1.1rem; color: #e0e7eb; position: relative; z-index: 2; margin-bottom: 0; }
 .success-body { padding: 30px 20px; position: relative; background: #fff; }
-
-/* Colored Square Confetti matching your image */
-.confetti-shape {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #000;
-    z-index: 1;
-}
-
-.shape-green { top: 20px; left: 30px; background: #0a6b43; transform: rotate(15deg); }
-.shape-blue { bottom: 30px; left: 40px; background: #0056b3; transform: rotate(-20deg); }
-.shape-yellow { bottom: 40px; right: 30px; background: #ffcc00; transform: rotate(45deg); }
-
+.confetti-w { position: absolute; font-size: 1.2rem; z-index: 1; }
+.confetti-w-2 { bottom: 20px; left: 30px; transform: rotate(45deg); }
 .approved-label { font-weight: 700; color: #7a92a8; letter-spacing: 1.5px; font-size: 0.85rem; margin-bottom: 10px; position: relative; z-index: 2; }
 .approved-amount { font-size: 3rem; font-weight: 900; color: #ffcc00; margin-bottom: 25px; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; gap: 8px; }
 .approved-amount span { color: #ffcc00; }
