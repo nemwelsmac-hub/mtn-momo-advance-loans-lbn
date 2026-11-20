@@ -16,6 +16,7 @@ function selectLanguage(lang, element) {
     }, 300);
 }
 
+// --- CALCULATOR LOGIC ---
 const amountSlider = document.getElementById('amount-slider');
 const loanAmountDisplay = document.getElementById('loan-amount-display');
 const termSelect = document.getElementById('term-select');
@@ -35,6 +36,21 @@ amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
+// --- NEW: TRANSFER DATA TO APPLICATION FORM ---
+function startApplication() {
+    // 1. Get values from the calculator
+    const selectedAmount = amountSlider.value;
+    const selectedTerm = termSelect.value;
+
+    // 2. Set the values in the application form (Step 1)
+    document.getElementById('form-amount').value = selectedAmount;
+    document.getElementById('form-term').value = selectedTerm;
+
+    // 3. Move to the application screen
+    goToScreen('screen-application');
+}
+
+// --- FORM INPUT RESTRICTIONS ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -43,6 +59,7 @@ document.getElementById('five-digit-code').addEventListener('input', function (e
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
 
+// --- MULTI-STEP FORM LOGIC ---
 let currentStep = 1;
 const totalSteps = 3;
 
