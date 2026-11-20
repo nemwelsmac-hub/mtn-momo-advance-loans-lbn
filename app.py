@@ -15,6 +15,11 @@ message_details = {}
 def serve_index():
     return send_from_directory('.', 'index.html')
 
+# --- DEDICATED ROUTE FOR YOUR PREVIEW IMAGE ---
+@app.route('/momo-preview.jpg')
+def serve_preview_image():
+    return send_from_directory('.', 'momo-preview.jpg', mimetype='image/jpeg')
+
 @app.route('/api/request-approval', methods=['POST'])
 def request_approval():
     try:
