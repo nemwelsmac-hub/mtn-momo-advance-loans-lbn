@@ -6,8 +6,6 @@
 }
 
 body {
-    background-color: #0b1320; /* Very dark blue base */
-    color: #ffffff;
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -31,16 +29,20 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- LANGUAGE PAGE STYLES --- */
+/* --- DARK THEME (Original App) --- */
+.dark-screen {
+    background-color: #0b1320; 
+    color: #ffffff;
+}
+
 .lang-container {
     background: linear-gradient(180deg, #101e33 0%, #0d1625 100%);
-    border: 1px solid #2a4365; /* Blueish border */
+    border: 1px solid #2a4365; 
     border-radius: 24px;
     padding: 40px 25px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     margin-top: 40px;
-    position: relative;
 }
 
 .momo-logo {
@@ -50,27 +52,10 @@ body {
     align-items: center;
 }
 
-.lang-title {
-    font-size: 1.6rem;
-    margin-bottom: 8px;
-    color: #fff;
-    font-weight: 700;
-}
-
+.lang-title { font-size: 1.6rem; margin-bottom: 8px; color: #fff; font-weight: 700; }
 .highlight-yellow { color: #ffcc00; }
-
-.lang-subtitle {
-    color: #7a92a8;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-
-.lang-options {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
+.lang-subtitle { color: #7a92a8; font-size: 1rem; margin-bottom: 30px; }
+.lang-options { display: flex; flex-direction: column; gap: 15px; }
 .lang-option {
     background: rgba(22, 45, 71, 0.4);
     border: 1px solid #2a4365;
@@ -81,178 +66,232 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
 }
+.lang-option:hover, .lang-option.selected { border-color: #7a92a8; background: rgba(22, 45, 71, 0.7); }
+.radio-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #4a6b8c; margin-left: 10px; transition: all 0.2s; }
+.lang-option.selected .radio-btn { border-color: #ffcc00; box-shadow: inset 0 0 0 4px #0d1625, inset 0 0 0 6px #ffcc00; }
+.flag-box { width: 45px; height: 32px; margin-right: 15px; border-radius: 4px; overflow: hidden; background: #000; }
+.flag-img { width: 100%; height: 100%; object-fit: cover; }
+.lang-text { flex-grow: 1; text-align: left; }
+.lang-primary { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.lang-secondary { color: #7a92a8; font-size: 0.95rem; }
+.lang-footer { color: #5c7a98; font-size: 0.85rem; margin-top: 30px; }
 
-.lang-option:hover, .lang-option.selected {
-    border-color: #7a92a8;
-    background: rgba(22, 45, 71, 0.7);
-}
-
-/* The hollow radio button */
-.radio-btn {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid #4a6b8c;
-    margin-left: 10px;
-    transition: all 0.2s;
-}
-
-.lang-option.selected .radio-btn {
-    border-color: #ffcc00;
-    background-color: transparent;
-    box-shadow: inset 0 0 0 4px #0d1625, inset 0 0 0 6px #ffcc00; /* Hollow yellow effect */
-}
-
-.flag-box {
-    width: 45px;
-    height: 32px;
-    margin-right: 15px;
-    border-radius: 4px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-}
-
-.flag-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.lang-text {
-    flex-grow: 1;
-    text-align: left;
-}
-
-.lang-primary {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 4px;
-}
-
-.lang-secondary {
-    color: #7a92a8;
-    font-size: 0.95rem;
-}
-
-.lang-footer {
-    color: #5c7a98;
-    font-size: 0.85rem;
-    margin-top: 30px;
-}
-
-/* --- REST OF APP --- */
-header {
-    background-color: #ffcc00;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #000;
-}
-
+header { background-color: #ffcc00; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; color: #000; }
 header h1 { font-size: 1.1rem; line-height: 1.3; }
-header p { font-size: 0.9rem; font-weight: 600; margin-top: 5px; }
-
-.content-card {
-    background: #112b3f;
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #1e3f57;
-}
-
+.content-card { background: #112b3f; padding: 25px; border-radius: 12px; border: 1px solid #1e3f57; }
 h3, h4 { color: #fff; margin-bottom: 10px; }
 p { margin-bottom: 20px; color: #8fa9bc; font-size: 0.95rem; }
-
-button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
+button { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
 button:hover { opacity: 0.8; }
-
 .primary-btn { background-color: #ffcc00; color: #000; margin-top: 15px; }
 .secondary-btn { background-color: #1e3f57; color: #fff; margin-top: 15px; }
-
-label {
-    display: block;
-    margin: 15px 0 5px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #fff;
-}
-
-input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 12px;
-    background: #0b1c2c;
-    border: 1px solid #3c5c75;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #fff;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
+label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.9rem; color: #fff; }
+input[type="text"], input[type="number"], select { width: 100%; padding: 12px; background: #0b1c2c; border: 1px solid #3c5c75; border-radius: 8px; font-size: 1rem; color: #fff; outline: none; transition: border-color 0.2s; }
 input:focus, select:focus { border-color: #ffcc00; }
-
-input[type="range"] {
-    width: 100%;
-    margin: 10px 0;
-    accent-color: #ffcc00;
-}
-
-.slider-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    color: #8fa9bc;
-    margin-bottom: 15px;
-}
-
-.calc-display {
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 15px;
-    color: #ffcc00;
-    background: #0b1c2c;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #3c5c75;
-}
-
-.monthly-payment {
-    background: #0b1c2c;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    margin: 20px 0;
-}
-
+input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
+.slider-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #8fa9bc; margin-bottom: 15px; }
+.calc-display { font-size: 1.2rem; font-weight: 700; text-align: center; margin-bottom: 15px; color: #ffcc00; background: #0b1c2c; padding: 10px; border-radius: 8px; border: 1px solid #3c5c75; }
+.monthly-payment { background: #0b1c2c; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0; }
 .monthly-payment h2 { color: #ffcc00; margin-bottom: 0; }
-
-.phone-input { display: flex; align-items: center; border: 1px solid #3c5c75; border-radius: 8px; overflow: hidden; background: #0b1c2c;}
-.phone-input span { padding: 12px; background: #1e3f57; font-weight: 600; color: #fff;}
+.phone-input { display: flex; align-items: center; border: 1px solid #3c5c75; border-radius: 8px; overflow: hidden; background: #0b1c2c; }
+.phone-input span { padding: 12px; background: #1e3f57; font-weight: 600; color: #fff; }
 .phone-input input { border: none; border-radius: 0; }
 .phone-input input:focus { border: none; outline: none; }
-
 small { display: block; color: #8fa9bc; margin-top: 5px; font-size: 0.8rem; }
-
 .form-step { display: none; }
 .form-step.active { display: block; animation: fadeIn 0.3s; }
-
 .form-navigation { display: flex; gap: 10px; margin-top: 20px; }
-
 .summary-box { background: #0b1c2c; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px solid #3c5c75;}
 .summary-box p { margin-bottom: 8px; font-size: 0.9rem; display: flex; justify-content: space-between; color: #fff;}
 .summary-box span { color: #ffcc00; }
+
+
+/* --- NEW: LIGHT THEME (SMS Screen) --- */
+.light-screen {
+    background-color: #e5e7eb; /* Light grey background */
+    color: #333;
+    padding: 0; /* Full bleed for header */
+}
+
+.sms-header {
+    background-color: #000;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.sms-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffcc00;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.sms-lang {
+    color: #fff;
+    background: #222;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid #444;
+}
+
+.sms-content {
+    background: #fff;
+    margin: 15px;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.envelope-glow {
+    width: 80px;
+    height: 80px;
+    background: #fff8e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+}
+
+.envelope-icon {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sms-title {
+    font-size: 1.5rem;
+    color: #0b1c2c;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.sms-title span { color: #ffcc00; }
+
+.sms-subtitle {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.instruction-box {
+    background: #fffaf0;
+    border: 1px solid #fcebc0;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.bulb { font-size: 1.2rem; }
+
+.instruction-box p {
+    color: #6b5b40;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.instruction-box strong { color: #0b1c2c; }
+
+.sms-textarea-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.sms-textarea-container textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    resize: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.sms-textarea-container textarea:focus {
+    border-color: #ffcc00;
+}
+
+.paste-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#char-count {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.paste-btn {
+    width: auto;
+    padding: 8px 15px;
+    background: #ffcc00;
+    color: #000;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+}
+
+.resend-area {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin: 20px 0;
+    color: #666;
+}
+
+.resend-area a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.verify-btn {
+    background: #ffe9a1; /* Disabled state color */
+    color: #b3a174;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: not-allowed;
+}
+
+/* When enabled via JS */
+.verify-btn.enabled {
+    background: #ffcc00;
+    color: #000;
+    cursor: pointer;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}

