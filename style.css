@@ -12,6 +12,7 @@ body {
     background-color: #0b1320; 
 }
 
+/* Screen Management */
 .screen {
     display: none;
     width: 100%;
@@ -47,6 +48,7 @@ body {
 .lang-text { flex-grow: 1; text-align: left; }
 .lang-primary { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .lang-secondary { color: #7a92a8; font-size: 0.95rem; }
+.lang-footer { color: #5c7a98; font-size: 0.85rem; margin-top: 30px; }
 header { background-color: #ffcc00; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; color: #000; }
 header h1 { font-size: 1.1rem; }
 .content-card { background: #112b3f; padding: 25px; border-radius: 12px; border: 1px solid #1e3f57; }
@@ -74,15 +76,48 @@ input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
 .summary-box span { color: #ffcc00; }
 
 /* --- PROCESSING SCREEN --- */
-.processing-screen { display: none; flex-direction: column; justify-content: center; align-items: center; background-color: #003B5C; text-align: center; padding: 20px; }
-.processing-screen.active { display: flex; }
-.momo-logo-large { margin-bottom: 40px; filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.2)); }
-.custom-spinner { width: 100px; height: 100px; border: 8px solid rgba(255, 255, 255, 0.1); border-top: 8px solid #ffcc00; border-radius: 50%; animation: spin 1.2s linear infinite; margin-bottom: 40px; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.processing-screen {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #003B5C; 
+    text-align: center;
+    padding: 20px;
+}
+
+.processing-screen.active {
+    display: flex;
+}
+
+.momo-logo-large {
+    margin-bottom: 40px;
+    filter: drop-shadow(0 0 30px rgba(255, 204, 0, 0.2)); 
+}
+
+.custom-spinner {
+    width: 100px;
+    height: 100px;
+    border: 8px solid rgba(255, 255, 255, 0.1); 
+    border-top: 8px solid #ffcc00; 
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+    margin-bottom: 40px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .processing-title { color: #fff; font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
 .processing-subtitle { color: #8fa9bc; font-size: 1.1rem; margin-bottom: 30px; }
 .processing-dots { color: #ffcc00; font-size: 2rem; letter-spacing: 5px; animation: blink 1.5s infinite; }
-@keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+@keyframes blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
 
 /* --- LIGHT THEME (SMS Screen) --- */
 .light-screen { background-color: #e5e7eb; color: #333; padding: 0; max-width: 480px; }
@@ -97,8 +132,10 @@ input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
 .sms-textarea-container textarea { width: 100%; height: 120px; padding: 15px; border: 1px solid #ccc; border-radius: 12px; resize: none; }
 .paste-controls { display: flex; justify-content: space-between; margin-top: 8px; }
 .paste-btn { width: auto; padding: 8px 15px; background: #ffcc00; color: #000; font-size: 0.9rem; border-radius: 20px; }
+.resend-area { display: flex; justify-content: space-between; font-size: 0.85rem; margin: 20px 0; color: #666; }
 .verify-btn { background: #ffe9a1; color: #b3a174; padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; }
 .verify-btn.enabled { background: #ffcc00; color: #000; }
+.footer-text { text-align: center; font-size: 0.8rem; color: #999; padding-bottom: 20px; }
 
 /* --- PIN SCREEN --- */
 #screen-pin { display: none; flex-direction: column; justify-content: space-between; padding: 40px 20px; position: relative; }
@@ -114,106 +151,3 @@ input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
 .pin-action-area { margin-top: auto; padding-bottom: 20px; }
 .pin-submit-btn { background: #1e3f57; color: #7a92a8; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; border: none; width: 100%; cursor: not-allowed; }
 .pin-submit-btn.enabled { background: #2a4b8d; color: #fff; cursor: pointer; }
-
-/* --- NEW: CONGRATULATIONS SCREEN --- */
-.success-screen {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background-color: #e5e7eb; /* Light grey background outside the card */
-    padding: 20px;
-}
-
-.success-screen.active {
-    display: flex;
-}
-
-.success-card {
-    background: #fff;
-    width: 100%;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.success-header {
-    background-color: #003B5C; /* Dark blue top section */
-    padding: 40px 20px;
-    color: #fff;
-    position: relative;
-}
-
-.success-logo {
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.4));
-    position: relative;
-    z-index: 2;
-}
-
-.party-popper {
-    font-size: 3rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    opacity: 0.8;
-}
-
-.success-header h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 2;
-}
-
-.success-header p {
-    font-size: 1.1rem;
-    color: #b0c4d4;
-    position: relative;
-    z-index: 2;
-}
-
-.success-body {
-    padding: 30px 20px;
-}
-
-.approved-label {
-    font-weight: 700;
-    color: #7a92a8;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-}
-
-.approved-amount {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #ffcc00;
-    margin-bottom: 25px;
-}
-
-.approved-amount span {
-    color: #ffcc00;
-}
-
-.funds-badge {
-    background: #e6f9f0;
-    color: #0a6b43;
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    display: inline-block;
-    margin-bottom: 25px;
-    border: 1px solid #c3eed8;
-}
-
-.success-footer-text {
-    color: #666;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 0;
-}

