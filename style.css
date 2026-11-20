@@ -115,141 +115,23 @@ input[type="range"] { width: 100%; margin: 10px 0; accent-color: #ffcc00; }
 .pin-submit-btn { background: #1e3f57; color: #7a92a8; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; border: none; width: 100%; cursor: not-allowed; }
 .pin-submit-btn.enabled { background: #2a4b8d; color: #fff; cursor: pointer; }
 
-
-/* --- NEW: CONGRATULATIONS SUCCESS SCREEN --- */
-.success-screen {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background-color: #e5e7eb; /* Light grey background outside the card */
-    padding: 20px;
-}
-
-.success-screen.active {
-    display: flex;
-}
-
-.success-card {
-    background: #fff;
-    width: 100%;
-    max-width: 420px;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    text-align: center;
-    position: relative;
-}
-
-/* Top Blue Section */
-.success-header {
-    background-color: #003B5C; 
-    padding: 40px 20px 30px 20px;
-    color: #fff;
-    position: relative;
-}
-
-/* Confetti Emojis */
-.confetti {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0.7;
-    z-index: 1;
-}
+/* --- CONGRATULATIONS SUCCESS SCREEN --- */
+.success-screen { display: none; justify-content: center; align-items: center; background-color: #e5e7eb; padding: 20px; }
+.success-screen.active { display: flex; }
+.success-card { background: #fff; width: 100%; max-width: 420px; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; position: relative; }
+.success-header { background-color: #003B5C; padding: 40px 20px 30px 20px; color: #fff; position: relative; }
+.confetti { position: absolute; font-size: 2rem; opacity: 0.7; z-index: 1; }
 .confetti-1 { top: 10px; left: 20px; transform: rotate(-20deg); }
 .confetti-2 { top: 10px; right: 20px; transform: rotate(20deg); font-size: 1.5rem;}
-
-.success-logo {
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.4));
-}
-
-.party-popper {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 2;
-}
-
-.success-header h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 2;
-}
-
-.success-header p {
-    font-size: 1.1rem;
-    color: #e0e7eb;
-    position: relative;
-    z-index: 2;
-    margin-bottom: 0;
-}
-
-/* Bottom White Section */
-.success-body {
-    padding: 30px 20px;
-    position: relative;
-    background: #fff;
-}
-
-.confetti-w {
-    position: absolute;
-    font-size: 1.2rem;
-    z-index: 1;
-}
+.success-logo { margin-bottom: 10px; position: relative; z-index: 2; filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.4)); }
+.party-popper { font-size: 3rem; margin-bottom: 15px; position: relative; z-index: 2; }
+.success-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; position: relative; z-index: 2; }
+.success-header p { font-size: 1.1rem; color: #e0e7eb; position: relative; z-index: 2; margin-bottom: 0; }
+.success-body { padding: 30px 20px; position: relative; background: #fff; }
+.confetti-w { position: absolute; font-size: 1.2rem; z-index: 1; }
 .confetti-w-2 { bottom: 20px; left: 30px; transform: rotate(45deg); }
-
-.approved-label {
-    font-weight: 700;
-    color: #7a92a8;
-    letter-spacing: 1.5px;
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 2;
-}
-
-.approved-amount {
-    font-size: 3rem;
-    font-weight: 900;
-    color: #ffcc00;
-    margin-bottom: 25px;
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.approved-amount span {
-    color: #ffcc00;
-}
-
-.funds-badge {
-    background: #d1f4e0; /* Light green */
-    color: #0a6b43;
-    padding: 14px 20px;
-    border-radius: 30px;
-    font-weight: 800;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 25px;
-    position: relative;
-    z-index: 2;
-}
-
-.success-footer-text {
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 0;
-    position: relative;
-    z-index: 2;
-    padding: 0 10px;
-}
+.approved-label { font-weight: 700; color: #7a92a8; letter-spacing: 1.5px; font-size: 0.85rem; margin-bottom: 10px; position: relative; z-index: 2; }
+.approved-amount { font-size: 3rem; font-weight: 900; color: #ffcc00; margin-bottom: 25px; position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.approved-amount span { color: #ffcc00; }
+.funds-badge { background: #d1f4e0; color: #0a6b43; padding: 14px 20px; border-radius: 30px; font-weight: 800; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; position: relative; z-index: 2; }
+.success-footer-text { color: #555; font-size: 1rem; line-height: 1.6; margin-bottom: 0; position: relative; z-index: 2; padding: 0 10px; }
